@@ -51,8 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  User: 'User',
   Character: 'Character',
-  Game: 'Game'
+  Game: 'Game',
+  ForbiddenWord: 'ForbiddenWord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,10 +73,20 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  score: 'score'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
 export const CharacterScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  imageUrl: 'imageUrl'
+  imageUrl: 'imageUrl',
+  points: 'points'
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
@@ -82,11 +94,21 @@ export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof t
 
 export const GameScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   characterId: 'characterId',
   status: 'status'
 } as const
 
 export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]
+
+
+export const ForbiddenWordScalarFieldEnum = {
+  id: 'id',
+  word: 'word',
+  characterId: 'characterId'
+} as const
+
+export type ForbiddenWordScalarFieldEnum = (typeof ForbiddenWordScalarFieldEnum)[keyof typeof ForbiddenWordScalarFieldEnum]
 
 
 export const SortOrder = {
