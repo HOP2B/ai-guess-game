@@ -17,27 +17,46 @@ export async function POST(request: NextRequest) {
       create: { username: username.trim() },
     });
 
-    // Get a random character
-    const characters = await prisma.character.findMany();
-    if (characters.length === 0) {
-      return NextResponse.json({ error: 'No characters available' }, { status: 400 });
+    // Get a random theme
+    const themes = await prisma.theme.findMany({
+      include: { characters: true },
+    });
+    if (themes.length === 0) {
+      return NextResponse.json({ error: 'No themes available' }, { status: 400 });
     }
-    const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
 
     // Create a new game
     const game = await prisma.game.create({
       data: {
         userId: user.id,
-        characterId: randomCharacter.id,
+        themeId: randomTheme.id,
         status: 'active',
-      },
-      include: {
-        character: true,
-        user: true,
       },
     });
 
-    return NextResponse.json({ game });
+    // Create GameCharacter entries for all characters in the theme
+    const gameCharactersData = randomTheme.characters.map(character => ({
+      gameId: game.id,
+      characterId: character.id,
+    }));
+    await prisma.gameCharacter.createMany({
+      data: gameCharactersData,
+    });
+
+    // Fetch the game with includes
+    const fullGame = await prisma.game.findUnique({
+      where: { id: game.id },
+      include: {
+        theme: true,
+        user: true,
+        gameCharacters: {
+          include: { character: true },
+        },
+      },
+    });
+
+    return NextResponse.json({ game: fullGame });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Failed to start game' }, { status: 500 });

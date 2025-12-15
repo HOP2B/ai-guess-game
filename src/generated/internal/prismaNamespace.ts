@@ -385,8 +385,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  Theme: 'Theme',
   Character: 'Character',
   Game: 'Game',
+  GameCharacter: 'GameCharacter',
   ForbiddenWord: 'ForbiddenWord'
 } as const
 
@@ -403,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "character" | "game" | "forbiddenWord"
+    modelProps: "user" | "theme" | "character" | "game" | "gameCharacter" | "forbiddenWord"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +480,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    Theme: {
+      payload: Prisma.$ThemePayload<ExtArgs>
+      fields: Prisma.ThemeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ThemeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ThemeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        findFirst: {
+          args: Prisma.ThemeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ThemeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        findMany: {
+          args: Prisma.ThemeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>[]
+        }
+        create: {
+          args: Prisma.ThemeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        createMany: {
+          args: Prisma.ThemeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ThemeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>[]
+        }
+        delete: {
+          args: Prisma.ThemeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        update: {
+          args: Prisma.ThemeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        deleteMany: {
+          args: Prisma.ThemeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ThemeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ThemeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>[]
+        }
+        upsert: {
+          args: Prisma.ThemeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        aggregate: {
+          args: Prisma.ThemeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTheme>
+        }
+        groupBy: {
+          args: Prisma.ThemeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ThemeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ThemeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ThemeCountAggregateOutputType> | number
         }
       }
     }
@@ -629,6 +705,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GameCharacter: {
+      payload: Prisma.$GameCharacterPayload<ExtArgs>
+      fields: Prisma.GameCharacterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GameCharacterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GameCharacterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        findFirst: {
+          args: Prisma.GameCharacterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GameCharacterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        findMany: {
+          args: Prisma.GameCharacterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>[]
+        }
+        create: {
+          args: Prisma.GameCharacterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        createMany: {
+          args: Prisma.GameCharacterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GameCharacterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>[]
+        }
+        delete: {
+          args: Prisma.GameCharacterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        update: {
+          args: Prisma.GameCharacterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        deleteMany: {
+          args: Prisma.GameCharacterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GameCharacterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GameCharacterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>[]
+        }
+        upsert: {
+          args: Prisma.GameCharacterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        aggregate: {
+          args: Prisma.GameCharacterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGameCharacter>
+        }
+        groupBy: {
+          args: Prisma.GameCharacterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameCharacterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GameCharacterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameCharacterCountAggregateOutputType> | number
+        }
+      }
+    }
     ForbiddenWord: {
       payload: Prisma.$ForbiddenWordPayload<ExtArgs>
       fields: Prisma.ForbiddenWordFieldRefs
@@ -751,11 +901,20 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
+
+
 export const CharacterScalarFieldEnum = {
   id: 'id',
   name: 'name',
   imageUrl: 'imageUrl',
-  points: 'points'
+  points: 'points',
+  themeId: 'themeId'
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
@@ -764,11 +923,21 @@ export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof t
 export const GameScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  characterId: 'characterId',
+  themeId: 'themeId',
   status: 'status'
 } as const
 
 export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]
+
+
+export const GameCharacterScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  characterId: 'characterId',
+  guessed: 'guessed'
+} as const
+
+export type GameCharacterScalarFieldEnum = (typeof GameCharacterScalarFieldEnum)[keyof typeof GameCharacterScalarFieldEnum]
 
 
 export const ForbiddenWordScalarFieldEnum = {
@@ -827,6 +996,13 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -939,8 +1115,10 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  theme?: Prisma.ThemeOmit
   character?: Prisma.CharacterOmit
   game?: Prisma.GameOmit
+  gameCharacter?: Prisma.GameCharacterOmit
   forbiddenWord?: Prisma.ForbiddenWordOmit
 }
 

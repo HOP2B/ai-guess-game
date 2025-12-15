@@ -384,8 +384,12 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  User: 'User',
+  Theme: 'Theme',
   Character: 'Character',
-  Game: 'Game'
+  Game: 'Game',
+  GameCharacter: 'GameCharacter',
+  ForbiddenWord: 'ForbiddenWord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,10 +405,158 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "character" | "game"
+    modelProps: "user" | "theme" | "character" | "game" | "gameCharacter" | "forbiddenWord"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    User: {
+      payload: Prisma.$UserPayload<ExtArgs>
+      fields: Prisma.UserFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        findFirst: {
+          args: Prisma.UserFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        findMany: {
+          args: Prisma.UserFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+        }
+        create: {
+          args: Prisma.UserCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        createMany: {
+          args: Prisma.UserCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+        }
+        delete: {
+          args: Prisma.UserDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        update: {
+          args: Prisma.UserUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPayload>
+        }
+        aggregate: {
+          args: Prisma.UserAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUser>
+        }
+        groupBy: {
+          args: Prisma.UserGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    Theme: {
+      payload: Prisma.$ThemePayload<ExtArgs>
+      fields: Prisma.ThemeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ThemeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ThemeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        findFirst: {
+          args: Prisma.ThemeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ThemeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        findMany: {
+          args: Prisma.ThemeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>[]
+        }
+        create: {
+          args: Prisma.ThemeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        createMany: {
+          args: Prisma.ThemeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ThemeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>[]
+        }
+        delete: {
+          args: Prisma.ThemeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        update: {
+          args: Prisma.ThemeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        deleteMany: {
+          args: Prisma.ThemeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ThemeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ThemeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>[]
+        }
+        upsert: {
+          args: Prisma.ThemeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ThemePayload>
+        }
+        aggregate: {
+          args: Prisma.ThemeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTheme>
+        }
+        groupBy: {
+          args: Prisma.ThemeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ThemeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ThemeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ThemeCountAggregateOutputType> | number
+        }
+      }
+    }
     Character: {
       payload: Prisma.$CharacterPayload<ExtArgs>
       fields: Prisma.CharacterFieldRefs
@@ -553,6 +705,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GameCharacter: {
+      payload: Prisma.$GameCharacterPayload<ExtArgs>
+      fields: Prisma.GameCharacterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GameCharacterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GameCharacterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        findFirst: {
+          args: Prisma.GameCharacterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GameCharacterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        findMany: {
+          args: Prisma.GameCharacterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>[]
+        }
+        create: {
+          args: Prisma.GameCharacterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        createMany: {
+          args: Prisma.GameCharacterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GameCharacterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>[]
+        }
+        delete: {
+          args: Prisma.GameCharacterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        update: {
+          args: Prisma.GameCharacterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        deleteMany: {
+          args: Prisma.GameCharacterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GameCharacterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GameCharacterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>[]
+        }
+        upsert: {
+          args: Prisma.GameCharacterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GameCharacterPayload>
+        }
+        aggregate: {
+          args: Prisma.GameCharacterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGameCharacter>
+        }
+        groupBy: {
+          args: Prisma.GameCharacterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameCharacterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GameCharacterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GameCharacterCountAggregateOutputType> | number
+        }
+      }
+    }
+    ForbiddenWord: {
+      payload: Prisma.$ForbiddenWordPayload<ExtArgs>
+      fields: Prisma.ForbiddenWordFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ForbiddenWordFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ForbiddenWordFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>
+        }
+        findFirst: {
+          args: Prisma.ForbiddenWordFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ForbiddenWordFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>
+        }
+        findMany: {
+          args: Prisma.ForbiddenWordFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>[]
+        }
+        create: {
+          args: Prisma.ForbiddenWordCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>
+        }
+        createMany: {
+          args: Prisma.ForbiddenWordCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ForbiddenWordCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>[]
+        }
+        delete: {
+          args: Prisma.ForbiddenWordDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>
+        }
+        update: {
+          args: Prisma.ForbiddenWordUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>
+        }
+        deleteMany: {
+          args: Prisma.ForbiddenWordDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ForbiddenWordUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ForbiddenWordUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>[]
+        }
+        upsert: {
+          args: Prisma.ForbiddenWordUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ForbiddenWordPayload>
+        }
+        aggregate: {
+          args: Prisma.ForbiddenWordAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateForbiddenWord>
+        }
+        groupBy: {
+          args: Prisma.ForbiddenWordGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ForbiddenWordGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ForbiddenWordCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ForbiddenWordCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -592,10 +892,29 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  score: 'score'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
+
+
 export const CharacterScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  imageUrl: 'imageUrl'
+  imageUrl: 'imageUrl',
+  points: 'points',
+  themeId: 'themeId'
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
@@ -603,11 +922,31 @@ export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof t
 
 export const GameScalarFieldEnum = {
   id: 'id',
-  characterId: 'characterId',
+  userId: 'userId',
+  themeId: 'themeId',
   status: 'status'
 } as const
 
 export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]
+
+
+export const GameCharacterScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  characterId: 'characterId',
+  guessed: 'guessed'
+} as const
+
+export type GameCharacterScalarFieldEnum = (typeof GameCharacterScalarFieldEnum)[keyof typeof GameCharacterScalarFieldEnum]
+
+
+export const ForbiddenWordScalarFieldEnum = {
+  id: 'id',
+  word: 'word',
+  characterId: 'characterId'
+} as const
+
+export type ForbiddenWordScalarFieldEnum = (typeof ForbiddenWordScalarFieldEnum)[keyof typeof ForbiddenWordScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -657,6 +996,13 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -768,8 +1114,12 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  user?: Prisma.UserOmit
+  theme?: Prisma.ThemeOmit
   character?: Prisma.CharacterOmit
   game?: Prisma.GameOmit
+  gameCharacter?: Prisma.GameCharacterOmit
+  forbiddenWord?: Prisma.ForbiddenWordOmit
 }
 
 /* Types for Logging */

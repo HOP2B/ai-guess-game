@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated"
+  output   = "../app/generated"
 }
 
 datasource db {
@@ -20,22 +20,43 @@ model User {
   games    Game[]
 }
 
+model Theme {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  characters Character[]
+  games      Game[]
+}
+
 model Character {
   id             Int             @id @default(autoincrement())
   name           String
   imageUrl       String
   points         Int             @default(10)
-  games          Game[]
+  themeId        Int
+  theme          Theme           @relation(fields: [themeId], references: [id])
+  gameCharacters GameCharacter[]
   forbiddenWords ForbiddenWord[]
 }
 
 model Game {
+  id             Int             @id @default(autoincrement())
+  userId         Int
+  user           User            @relation(fields: [userId], references: [id])
+  themeId        Int
+  theme          Theme           @relation(fields: [themeId], references: [id])
+  status         String
+  gameCharacters GameCharacter[]
+}
+
+model GameCharacter {
   id          Int       @id @default(autoincrement())
-  userId      Int
-  user        User      @relation(fields: [userId], references: [id])
+  gameId      Int
+  game        Game      @relation(fields: [gameId], references: [id])
   characterId Int
   character   Character @relation(fields: [characterId], references: [id])
-  status      String
+  guessed     Boolean   @default(false)
+
+  @@unique([gameId, characterId])
 }
 
 model ForbiddenWord {

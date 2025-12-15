@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Characters
- * const characters = await prisma.character.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,6 +39,16 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model Theme
+ * 
+ */
+export type Theme = Prisma.ThemeModel
 /**
  * Model Character
  * 
@@ -49,3 +59,13 @@ export type Character = Prisma.CharacterModel
  * 
  */
 export type Game = Prisma.GameModel
+/**
+ * Model GameCharacter
+ * 
+ */
+export type GameCharacter = Prisma.GameCharacterModel
+/**
+ * Model ForbiddenWord
+ * 
+ */
+export type ForbiddenWord = Prisma.ForbiddenWordModel
