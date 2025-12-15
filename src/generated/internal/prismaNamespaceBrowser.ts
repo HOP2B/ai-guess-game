@@ -52,8 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Theme: 'Theme',
   Character: 'Character',
   Game: 'Game',
+  GameCharacter: 'GameCharacter',
   ForbiddenWord: 'ForbiddenWord'
 } as const
 
@@ -82,11 +84,20 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
+
+
 export const CharacterScalarFieldEnum = {
   id: 'id',
   name: 'name',
   imageUrl: 'imageUrl',
-  points: 'points'
+  points: 'points',
+  themeId: 'themeId'
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
@@ -95,11 +106,21 @@ export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof t
 export const GameScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  characterId: 'characterId',
+  themeId: 'themeId',
   status: 'status'
 } as const
 
 export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]
+
+
+export const GameCharacterScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  characterId: 'characterId',
+  guessed: 'guessed'
+} as const
+
+export type GameCharacterScalarFieldEnum = (typeof GameCharacterScalarFieldEnum)[keyof typeof GameCharacterScalarFieldEnum]
 
 
 export const ForbiddenWordScalarFieldEnum = {

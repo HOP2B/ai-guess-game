@@ -29,33 +29,33 @@ export type AggregateGame = {
 export type GameAvgAggregateOutputType = {
   id: number | null
   userId: number | null
-  characterId: number | null
+  themeId: number | null
 }
 
 export type GameSumAggregateOutputType = {
   id: number | null
   userId: number | null
-  characterId: number | null
+  themeId: number | null
 }
 
 export type GameMinAggregateOutputType = {
   id: number | null
   userId: number | null
-  characterId: number | null
+  themeId: number | null
   status: string | null
 }
 
 export type GameMaxAggregateOutputType = {
   id: number | null
   userId: number | null
-  characterId: number | null
+  themeId: number | null
   status: string | null
 }
 
 export type GameCountAggregateOutputType = {
   id: number
   userId: number
-  characterId: number
+  themeId: number
   status: number
   _all: number
 }
@@ -64,33 +64,33 @@ export type GameCountAggregateOutputType = {
 export type GameAvgAggregateInputType = {
   id?: true
   userId?: true
-  characterId?: true
+  themeId?: true
 }
 
 export type GameSumAggregateInputType = {
   id?: true
   userId?: true
-  characterId?: true
+  themeId?: true
 }
 
 export type GameMinAggregateInputType = {
   id?: true
   userId?: true
-  characterId?: true
+  themeId?: true
   status?: true
 }
 
 export type GameMaxAggregateInputType = {
   id?: true
   userId?: true
-  characterId?: true
+  themeId?: true
   status?: true
 }
 
 export type GameCountAggregateInputType = {
   id?: true
   userId?: true
-  characterId?: true
+  themeId?: true
   status?: true
   _all?: true
 }
@@ -184,7 +184,7 @@ export type GameGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type GameGroupByOutputType = {
   id: number
   userId: number
-  characterId: number
+  themeId: number
   status: string
   _count: GameCountAggregateOutputType | null
   _avg: GameAvgAggregateOutputType | null
@@ -214,19 +214,21 @@ export type GameWhereInput = {
   NOT?: Prisma.GameWhereInput | Prisma.GameWhereInput[]
   id?: Prisma.IntFilter<"Game"> | number
   userId?: Prisma.IntFilter<"Game"> | number
-  characterId?: Prisma.IntFilter<"Game"> | number
+  themeId?: Prisma.IntFilter<"Game"> | number
   status?: Prisma.StringFilter<"Game"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  character?: Prisma.XOR<Prisma.CharacterScalarRelationFilter, Prisma.CharacterWhereInput>
+  theme?: Prisma.XOR<Prisma.ThemeScalarRelationFilter, Prisma.ThemeWhereInput>
+  gameCharacters?: Prisma.GameCharacterListRelationFilter
 }
 
 export type GameOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  character?: Prisma.CharacterOrderByWithRelationInput
+  theme?: Prisma.ThemeOrderByWithRelationInput
+  gameCharacters?: Prisma.GameCharacterOrderByRelationAggregateInput
 }
 
 export type GameWhereUniqueInput = Prisma.AtLeast<{
@@ -235,16 +237,17 @@ export type GameWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.GameWhereInput[]
   NOT?: Prisma.GameWhereInput | Prisma.GameWhereInput[]
   userId?: Prisma.IntFilter<"Game"> | number
-  characterId?: Prisma.IntFilter<"Game"> | number
+  themeId?: Prisma.IntFilter<"Game"> | number
   status?: Prisma.StringFilter<"Game"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  character?: Prisma.XOR<Prisma.CharacterScalarRelationFilter, Prisma.CharacterWhereInput>
+  theme?: Prisma.XOR<Prisma.ThemeScalarRelationFilter, Prisma.ThemeWhereInput>
+  gameCharacters?: Prisma.GameCharacterListRelationFilter
 }, "id">
 
 export type GameOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   _count?: Prisma.GameCountOrderByAggregateInput
   _avg?: Prisma.GameAvgOrderByAggregateInput
@@ -259,40 +262,44 @@ export type GameScalarWhereWithAggregatesInput = {
   NOT?: Prisma.GameScalarWhereWithAggregatesInput | Prisma.GameScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Game"> | number
   userId?: Prisma.IntWithAggregatesFilter<"Game"> | number
-  characterId?: Prisma.IntWithAggregatesFilter<"Game"> | number
+  themeId?: Prisma.IntWithAggregatesFilter<"Game"> | number
   status?: Prisma.StringWithAggregatesFilter<"Game"> | string
 }
 
 export type GameCreateInput = {
   status: string
   user: Prisma.UserCreateNestedOneWithoutGamesInput
-  character: Prisma.CharacterCreateNestedOneWithoutGamesInput
+  theme: Prisma.ThemeCreateNestedOneWithoutGamesInput
+  gameCharacters?: Prisma.GameCharacterCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateInput = {
   id?: number
   userId: number
-  characterId: number
+  themeId: number
   status: string
+  gameCharacters?: Prisma.GameCharacterUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
-  character?: Prisma.CharacterUpdateOneRequiredWithoutGamesNestedInput
+  theme?: Prisma.ThemeUpdateOneRequiredWithoutGamesNestedInput
+  gameCharacters?: Prisma.GameCharacterUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  characterId?: Prisma.IntFieldUpdateOperationsInput | number
+  themeId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  gameCharacters?: Prisma.GameCharacterUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameCreateManyInput = {
   id?: number
   userId: number
-  characterId: number
+  themeId: number
   status: string
 }
 
@@ -303,7 +310,7 @@ export type GameUpdateManyMutationInput = {
 export type GameUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  characterId?: Prisma.IntFieldUpdateOperationsInput | number
+  themeId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -320,34 +327,39 @@ export type GameOrderByRelationAggregateInput = {
 export type GameCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type GameAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
 }
 
 export type GameMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type GameMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type GameSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  characterId?: Prisma.SortOrder
+  themeId?: Prisma.SortOrder
+}
+
+export type GameScalarRelationFilter = {
+  is?: Prisma.GameWhereInput
+  isNot?: Prisma.GameWhereInput
 }
 
 export type GameCreateNestedManyWithoutUserInput = {
@@ -392,57 +404,73 @@ export type GameUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.GameScalarWhereInput | Prisma.GameScalarWhereInput[]
 }
 
-export type GameCreateNestedManyWithoutCharacterInput = {
-  create?: Prisma.XOR<Prisma.GameCreateWithoutCharacterInput, Prisma.GameUncheckedCreateWithoutCharacterInput> | Prisma.GameCreateWithoutCharacterInput[] | Prisma.GameUncheckedCreateWithoutCharacterInput[]
-  connectOrCreate?: Prisma.GameCreateOrConnectWithoutCharacterInput | Prisma.GameCreateOrConnectWithoutCharacterInput[]
-  createMany?: Prisma.GameCreateManyCharacterInputEnvelope
+export type GameCreateNestedManyWithoutThemeInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutThemeInput, Prisma.GameUncheckedCreateWithoutThemeInput> | Prisma.GameCreateWithoutThemeInput[] | Prisma.GameUncheckedCreateWithoutThemeInput[]
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutThemeInput | Prisma.GameCreateOrConnectWithoutThemeInput[]
+  createMany?: Prisma.GameCreateManyThemeInputEnvelope
   connect?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
 }
 
-export type GameUncheckedCreateNestedManyWithoutCharacterInput = {
-  create?: Prisma.XOR<Prisma.GameCreateWithoutCharacterInput, Prisma.GameUncheckedCreateWithoutCharacterInput> | Prisma.GameCreateWithoutCharacterInput[] | Prisma.GameUncheckedCreateWithoutCharacterInput[]
-  connectOrCreate?: Prisma.GameCreateOrConnectWithoutCharacterInput | Prisma.GameCreateOrConnectWithoutCharacterInput[]
-  createMany?: Prisma.GameCreateManyCharacterInputEnvelope
+export type GameUncheckedCreateNestedManyWithoutThemeInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutThemeInput, Prisma.GameUncheckedCreateWithoutThemeInput> | Prisma.GameCreateWithoutThemeInput[] | Prisma.GameUncheckedCreateWithoutThemeInput[]
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutThemeInput | Prisma.GameCreateOrConnectWithoutThemeInput[]
+  createMany?: Prisma.GameCreateManyThemeInputEnvelope
   connect?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
 }
 
-export type GameUpdateManyWithoutCharacterNestedInput = {
-  create?: Prisma.XOR<Prisma.GameCreateWithoutCharacterInput, Prisma.GameUncheckedCreateWithoutCharacterInput> | Prisma.GameCreateWithoutCharacterInput[] | Prisma.GameUncheckedCreateWithoutCharacterInput[]
-  connectOrCreate?: Prisma.GameCreateOrConnectWithoutCharacterInput | Prisma.GameCreateOrConnectWithoutCharacterInput[]
-  upsert?: Prisma.GameUpsertWithWhereUniqueWithoutCharacterInput | Prisma.GameUpsertWithWhereUniqueWithoutCharacterInput[]
-  createMany?: Prisma.GameCreateManyCharacterInputEnvelope
+export type GameUpdateManyWithoutThemeNestedInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutThemeInput, Prisma.GameUncheckedCreateWithoutThemeInput> | Prisma.GameCreateWithoutThemeInput[] | Prisma.GameUncheckedCreateWithoutThemeInput[]
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutThemeInput | Prisma.GameCreateOrConnectWithoutThemeInput[]
+  upsert?: Prisma.GameUpsertWithWhereUniqueWithoutThemeInput | Prisma.GameUpsertWithWhereUniqueWithoutThemeInput[]
+  createMany?: Prisma.GameCreateManyThemeInputEnvelope
   set?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
   disconnect?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
   delete?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
   connect?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
-  update?: Prisma.GameUpdateWithWhereUniqueWithoutCharacterInput | Prisma.GameUpdateWithWhereUniqueWithoutCharacterInput[]
-  updateMany?: Prisma.GameUpdateManyWithWhereWithoutCharacterInput | Prisma.GameUpdateManyWithWhereWithoutCharacterInput[]
+  update?: Prisma.GameUpdateWithWhereUniqueWithoutThemeInput | Prisma.GameUpdateWithWhereUniqueWithoutThemeInput[]
+  updateMany?: Prisma.GameUpdateManyWithWhereWithoutThemeInput | Prisma.GameUpdateManyWithWhereWithoutThemeInput[]
   deleteMany?: Prisma.GameScalarWhereInput | Prisma.GameScalarWhereInput[]
 }
 
-export type GameUncheckedUpdateManyWithoutCharacterNestedInput = {
-  create?: Prisma.XOR<Prisma.GameCreateWithoutCharacterInput, Prisma.GameUncheckedCreateWithoutCharacterInput> | Prisma.GameCreateWithoutCharacterInput[] | Prisma.GameUncheckedCreateWithoutCharacterInput[]
-  connectOrCreate?: Prisma.GameCreateOrConnectWithoutCharacterInput | Prisma.GameCreateOrConnectWithoutCharacterInput[]
-  upsert?: Prisma.GameUpsertWithWhereUniqueWithoutCharacterInput | Prisma.GameUpsertWithWhereUniqueWithoutCharacterInput[]
-  createMany?: Prisma.GameCreateManyCharacterInputEnvelope
+export type GameUncheckedUpdateManyWithoutThemeNestedInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutThemeInput, Prisma.GameUncheckedCreateWithoutThemeInput> | Prisma.GameCreateWithoutThemeInput[] | Prisma.GameUncheckedCreateWithoutThemeInput[]
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutThemeInput | Prisma.GameCreateOrConnectWithoutThemeInput[]
+  upsert?: Prisma.GameUpsertWithWhereUniqueWithoutThemeInput | Prisma.GameUpsertWithWhereUniqueWithoutThemeInput[]
+  createMany?: Prisma.GameCreateManyThemeInputEnvelope
   set?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
   disconnect?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
   delete?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
   connect?: Prisma.GameWhereUniqueInput | Prisma.GameWhereUniqueInput[]
-  update?: Prisma.GameUpdateWithWhereUniqueWithoutCharacterInput | Prisma.GameUpdateWithWhereUniqueWithoutCharacterInput[]
-  updateMany?: Prisma.GameUpdateManyWithWhereWithoutCharacterInput | Prisma.GameUpdateManyWithWhereWithoutCharacterInput[]
+  update?: Prisma.GameUpdateWithWhereUniqueWithoutThemeInput | Prisma.GameUpdateWithWhereUniqueWithoutThemeInput[]
+  updateMany?: Prisma.GameUpdateManyWithWhereWithoutThemeInput | Prisma.GameUpdateManyWithWhereWithoutThemeInput[]
   deleteMany?: Prisma.GameScalarWhereInput | Prisma.GameScalarWhereInput[]
+}
+
+export type GameCreateNestedOneWithoutGameCharactersInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutGameCharactersInput, Prisma.GameUncheckedCreateWithoutGameCharactersInput>
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutGameCharactersInput
+  connect?: Prisma.GameWhereUniqueInput
+}
+
+export type GameUpdateOneRequiredWithoutGameCharactersNestedInput = {
+  create?: Prisma.XOR<Prisma.GameCreateWithoutGameCharactersInput, Prisma.GameUncheckedCreateWithoutGameCharactersInput>
+  connectOrCreate?: Prisma.GameCreateOrConnectWithoutGameCharactersInput
+  upsert?: Prisma.GameUpsertWithoutGameCharactersInput
+  connect?: Prisma.GameWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GameUpdateToOneWithWhereWithoutGameCharactersInput, Prisma.GameUpdateWithoutGameCharactersInput>, Prisma.GameUncheckedUpdateWithoutGameCharactersInput>
 }
 
 export type GameCreateWithoutUserInput = {
   status: string
-  character: Prisma.CharacterCreateNestedOneWithoutGamesInput
+  theme: Prisma.ThemeCreateNestedOneWithoutGamesInput
+  gameCharacters?: Prisma.GameCharacterCreateNestedManyWithoutGameInput
 }
 
 export type GameUncheckedCreateWithoutUserInput = {
   id?: number
-  characterId: number
+  themeId: number
   status: string
+  gameCharacters?: Prisma.GameCharacterUncheckedCreateNestedManyWithoutGameInput
 }
 
 export type GameCreateOrConnectWithoutUserInput = {
@@ -477,153 +505,235 @@ export type GameScalarWhereInput = {
   NOT?: Prisma.GameScalarWhereInput | Prisma.GameScalarWhereInput[]
   id?: Prisma.IntFilter<"Game"> | number
   userId?: Prisma.IntFilter<"Game"> | number
-  characterId?: Prisma.IntFilter<"Game"> | number
+  themeId?: Prisma.IntFilter<"Game"> | number
   status?: Prisma.StringFilter<"Game"> | string
 }
 
-export type GameCreateWithoutCharacterInput = {
+export type GameCreateWithoutThemeInput = {
   status: string
   user: Prisma.UserCreateNestedOneWithoutGamesInput
+  gameCharacters?: Prisma.GameCharacterCreateNestedManyWithoutGameInput
 }
 
-export type GameUncheckedCreateWithoutCharacterInput = {
+export type GameUncheckedCreateWithoutThemeInput = {
   id?: number
   userId: number
   status: string
+  gameCharacters?: Prisma.GameCharacterUncheckedCreateNestedManyWithoutGameInput
 }
 
-export type GameCreateOrConnectWithoutCharacterInput = {
+export type GameCreateOrConnectWithoutThemeInput = {
   where: Prisma.GameWhereUniqueInput
-  create: Prisma.XOR<Prisma.GameCreateWithoutCharacterInput, Prisma.GameUncheckedCreateWithoutCharacterInput>
+  create: Prisma.XOR<Prisma.GameCreateWithoutThemeInput, Prisma.GameUncheckedCreateWithoutThemeInput>
 }
 
-export type GameCreateManyCharacterInputEnvelope = {
-  data: Prisma.GameCreateManyCharacterInput | Prisma.GameCreateManyCharacterInput[]
+export type GameCreateManyThemeInputEnvelope = {
+  data: Prisma.GameCreateManyThemeInput | Prisma.GameCreateManyThemeInput[]
   skipDuplicates?: boolean
 }
 
-export type GameUpsertWithWhereUniqueWithoutCharacterInput = {
+export type GameUpsertWithWhereUniqueWithoutThemeInput = {
   where: Prisma.GameWhereUniqueInput
-  update: Prisma.XOR<Prisma.GameUpdateWithoutCharacterInput, Prisma.GameUncheckedUpdateWithoutCharacterInput>
-  create: Prisma.XOR<Prisma.GameCreateWithoutCharacterInput, Prisma.GameUncheckedCreateWithoutCharacterInput>
+  update: Prisma.XOR<Prisma.GameUpdateWithoutThemeInput, Prisma.GameUncheckedUpdateWithoutThemeInput>
+  create: Prisma.XOR<Prisma.GameCreateWithoutThemeInput, Prisma.GameUncheckedCreateWithoutThemeInput>
 }
 
-export type GameUpdateWithWhereUniqueWithoutCharacterInput = {
+export type GameUpdateWithWhereUniqueWithoutThemeInput = {
   where: Prisma.GameWhereUniqueInput
-  data: Prisma.XOR<Prisma.GameUpdateWithoutCharacterInput, Prisma.GameUncheckedUpdateWithoutCharacterInput>
+  data: Prisma.XOR<Prisma.GameUpdateWithoutThemeInput, Prisma.GameUncheckedUpdateWithoutThemeInput>
 }
 
-export type GameUpdateManyWithWhereWithoutCharacterInput = {
+export type GameUpdateManyWithWhereWithoutThemeInput = {
   where: Prisma.GameScalarWhereInput
-  data: Prisma.XOR<Prisma.GameUpdateManyMutationInput, Prisma.GameUncheckedUpdateManyWithoutCharacterInput>
+  data: Prisma.XOR<Prisma.GameUpdateManyMutationInput, Prisma.GameUncheckedUpdateManyWithoutThemeInput>
+}
+
+export type GameCreateWithoutGameCharactersInput = {
+  status: string
+  user: Prisma.UserCreateNestedOneWithoutGamesInput
+  theme: Prisma.ThemeCreateNestedOneWithoutGamesInput
+}
+
+export type GameUncheckedCreateWithoutGameCharactersInput = {
+  id?: number
+  userId: number
+  themeId: number
+  status: string
+}
+
+export type GameCreateOrConnectWithoutGameCharactersInput = {
+  where: Prisma.GameWhereUniqueInput
+  create: Prisma.XOR<Prisma.GameCreateWithoutGameCharactersInput, Prisma.GameUncheckedCreateWithoutGameCharactersInput>
+}
+
+export type GameUpsertWithoutGameCharactersInput = {
+  update: Prisma.XOR<Prisma.GameUpdateWithoutGameCharactersInput, Prisma.GameUncheckedUpdateWithoutGameCharactersInput>
+  create: Prisma.XOR<Prisma.GameCreateWithoutGameCharactersInput, Prisma.GameUncheckedCreateWithoutGameCharactersInput>
+  where?: Prisma.GameWhereInput
+}
+
+export type GameUpdateToOneWithWhereWithoutGameCharactersInput = {
+  where?: Prisma.GameWhereInput
+  data: Prisma.XOR<Prisma.GameUpdateWithoutGameCharactersInput, Prisma.GameUncheckedUpdateWithoutGameCharactersInput>
+}
+
+export type GameUpdateWithoutGameCharactersInput = {
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
+  theme?: Prisma.ThemeUpdateOneRequiredWithoutGamesNestedInput
+}
+
+export type GameUncheckedUpdateWithoutGameCharactersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  themeId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type GameCreateManyUserInput = {
   id?: number
-  characterId: number
+  themeId: number
   status: string
 }
 
 export type GameUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  character?: Prisma.CharacterUpdateOneRequiredWithoutGamesNestedInput
+  theme?: Prisma.ThemeUpdateOneRequiredWithoutGamesNestedInput
+  gameCharacters?: Prisma.GameCharacterUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  characterId?: Prisma.IntFieldUpdateOperationsInput | number
+  themeId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  gameCharacters?: Prisma.GameCharacterUncheckedUpdateManyWithoutGameNestedInput
 }
 
 export type GameUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  characterId?: Prisma.IntFieldUpdateOperationsInput | number
+  themeId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type GameCreateManyCharacterInput = {
+export type GameCreateManyThemeInput = {
   id?: number
   userId: number
   status: string
 }
 
-export type GameUpdateWithoutCharacterInput = {
+export type GameUpdateWithoutThemeInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   user?: Prisma.UserUpdateOneRequiredWithoutGamesNestedInput
+  gameCharacters?: Prisma.GameCharacterUpdateManyWithoutGameNestedInput
 }
 
-export type GameUncheckedUpdateWithoutCharacterInput = {
+export type GameUncheckedUpdateWithoutThemeInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  gameCharacters?: Prisma.GameCharacterUncheckedUpdateManyWithoutGameNestedInput
+}
+
+export type GameUncheckedUpdateManyWithoutThemeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type GameUncheckedUpdateManyWithoutCharacterInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+
+/**
+ * Count Type GameCountOutputType
+ */
+
+export type GameCountOutputType = {
+  gameCharacters: number
 }
 
+export type GameCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  gameCharacters?: boolean | GameCountOutputTypeCountGameCharactersArgs
+}
+
+/**
+ * GameCountOutputType without action
+ */
+export type GameCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GameCountOutputType
+   */
+  select?: Prisma.GameCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * GameCountOutputType without action
+ */
+export type GameCountOutputTypeCountGameCharactersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GameCharacterWhereInput
+}
 
 
 export type GameSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  characterId?: boolean
+  themeId?: boolean
   status?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  theme?: boolean | Prisma.ThemeDefaultArgs<ExtArgs>
+  gameCharacters?: boolean | Prisma.Game$gameCharactersArgs<ExtArgs>
+  _count?: boolean | Prisma.GameCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["game"]>
 
 export type GameSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  characterId?: boolean
+  themeId?: boolean
   status?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  theme?: boolean | Prisma.ThemeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["game"]>
 
 export type GameSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
-  characterId?: boolean
+  themeId?: boolean
   status?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  theme?: boolean | Prisma.ThemeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["game"]>
 
 export type GameSelectScalar = {
   id?: boolean
   userId?: boolean
-  characterId?: boolean
+  themeId?: boolean
   status?: boolean
 }
 
-export type GameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "characterId" | "status", ExtArgs["result"]["game"]>
+export type GameOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "themeId" | "status", ExtArgs["result"]["game"]>
 export type GameInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  theme?: boolean | Prisma.ThemeDefaultArgs<ExtArgs>
+  gameCharacters?: boolean | Prisma.Game$gameCharactersArgs<ExtArgs>
+  _count?: boolean | Prisma.GameCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GameIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  theme?: boolean | Prisma.ThemeDefaultArgs<ExtArgs>
 }
 export type GameIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  theme?: boolean | Prisma.ThemeDefaultArgs<ExtArgs>
 }
 
 export type $GamePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Game"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    character: Prisma.$CharacterPayload<ExtArgs>
+    theme: Prisma.$ThemePayload<ExtArgs>
+    gameCharacters: Prisma.$GameCharacterPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     userId: number
-    characterId: number
+    themeId: number
     status: string
   }, ExtArgs["result"]["game"]>
   composites: {}
@@ -1020,7 +1130,8 @@ readonly fields: GameFieldRefs;
 export interface Prisma__GameClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  character<T extends Prisma.CharacterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CharacterDefaultArgs<ExtArgs>>): Prisma.Prisma__CharacterClient<runtime.Types.Result.GetResult<Prisma.$CharacterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  theme<T extends Prisma.ThemeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ThemeDefaultArgs<ExtArgs>>): Prisma.Prisma__ThemeClient<runtime.Types.Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  gameCharacters<T extends Prisma.Game$gameCharactersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Game$gameCharactersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GameCharacterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1052,7 +1163,7 @@ export interface Prisma__GameClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface GameFieldRefs {
   readonly id: Prisma.FieldRef<"Game", 'Int'>
   readonly userId: Prisma.FieldRef<"Game", 'Int'>
-  readonly characterId: Prisma.FieldRef<"Game", 'Int'>
+  readonly themeId: Prisma.FieldRef<"Game", 'Int'>
   readonly status: Prisma.FieldRef<"Game", 'String'>
 }
     
@@ -1447,6 +1558,30 @@ export type GameDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Games to delete.
    */
   limit?: number
+}
+
+/**
+ * Game.gameCharacters
+ */
+export type Game$gameCharactersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GameCharacter
+   */
+  select?: Prisma.GameCharacterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GameCharacter
+   */
+  omit?: Prisma.GameCharacterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GameCharacterInclude<ExtArgs> | null
+  where?: Prisma.GameCharacterWhereInput
+  orderBy?: Prisma.GameCharacterOrderByWithRelationInput | Prisma.GameCharacterOrderByWithRelationInput[]
+  cursor?: Prisma.GameCharacterWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GameCharacterScalarFieldEnum | Prisma.GameCharacterScalarFieldEnum[]
 }
 
 /**

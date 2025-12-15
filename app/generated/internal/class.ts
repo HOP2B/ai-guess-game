@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Character {\n  id       Int    @id @default(autoincrement())\n  name     String\n  imageUrl String\n  games    Game[]\n}\n\nmodel Game {\n  id          Int       @id @default(autoincrement())\n  characterId Int\n  character   Character @relation(fields: [characterId], references: [id])\n  status      String\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  username String @unique\n  score    Int    @default(0)\n  games    Game[]\n}\n\nmodel Theme {\n  id         Int         @id @default(autoincrement())\n  name       String      @unique\n  characters Character[]\n  games      Game[]\n}\n\nmodel Character {\n  id             Int             @id @default(autoincrement())\n  name           String\n  imageUrl       String\n  points         Int             @default(10)\n  themeId        Int\n  theme          Theme           @relation(fields: [themeId], references: [id])\n  gameCharacters GameCharacter[]\n  forbiddenWords ForbiddenWord[]\n}\n\nmodel Game {\n  id             Int             @id @default(autoincrement())\n  userId         Int\n  user           User            @relation(fields: [userId], references: [id])\n  themeId        Int\n  theme          Theme           @relation(fields: [themeId], references: [id])\n  status         String\n  gameCharacters GameCharacter[]\n}\n\nmodel GameCharacter {\n  id          Int       @id @default(autoincrement())\n  gameId      Int\n  game        Game      @relation(fields: [gameId], references: [id])\n  characterId Int\n  character   Character @relation(fields: [characterId], references: [id])\n  guessed     Boolean   @default(false)\n\n  @@unique([gameId, characterId])\n}\n\nmodel ForbiddenWord {\n  id          Int       @id @default(autoincrement())\n  word        String\n  characterId Int\n  character   Character @relation(fields: [characterId], references: [id])\n\n  @@unique([word, characterId])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Character\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"games\",\"kind\":\"object\",\"type\":\"Game\",\"relationName\":\"CharacterToGame\"}],\"dbName\":null},\"Game\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"characterId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"character\",\"kind\":\"object\",\"type\":\"Character\",\"relationName\":\"CharacterToGame\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"score\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"games\",\"kind\":\"object\",\"type\":\"Game\",\"relationName\":\"GameToUser\"}],\"dbName\":null},\"Theme\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"characters\",\"kind\":\"object\",\"type\":\"Character\",\"relationName\":\"CharacterToTheme\"},{\"name\":\"games\",\"kind\":\"object\",\"type\":\"Game\",\"relationName\":\"GameToTheme\"}],\"dbName\":null},\"Character\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"themeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"theme\",\"kind\":\"object\",\"type\":\"Theme\",\"relationName\":\"CharacterToTheme\"},{\"name\":\"gameCharacters\",\"kind\":\"object\",\"type\":\"GameCharacter\",\"relationName\":\"CharacterToGameCharacter\"},{\"name\":\"forbiddenWords\",\"kind\":\"object\",\"type\":\"ForbiddenWord\",\"relationName\":\"CharacterToForbiddenWord\"}],\"dbName\":null},\"Game\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"GameToUser\"},{\"name\":\"themeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"theme\",\"kind\":\"object\",\"type\":\"Theme\",\"relationName\":\"GameToTheme\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gameCharacters\",\"kind\":\"object\",\"type\":\"GameCharacter\",\"relationName\":\"GameToGameCharacter\"}],\"dbName\":null},\"GameCharacter\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gameId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"game\",\"kind\":\"object\",\"type\":\"Game\",\"relationName\":\"GameToGameCharacter\"},{\"name\":\"characterId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"character\",\"kind\":\"object\",\"type\":\"Character\",\"relationName\":\"CharacterToGameCharacter\"},{\"name\":\"guessed\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null},\"ForbiddenWord\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"word\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"characterId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"character\",\"kind\":\"object\",\"type\":\"Character\",\"relationName\":\"CharacterToForbiddenWord\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Characters
-   * const characters = await prisma.character.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Characters
- * const characters = await prisma.character.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,6 +175,26 @@ export interface PrismaClient<
   }>>
 
       /**
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
+    * ```
+    */
+  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.theme`: Exposes CRUD operations for the **Theme** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Themes
+    * const themes = await prisma.theme.findMany()
+    * ```
+    */
+  get theme(): Prisma.ThemeDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.character`: Exposes CRUD operations for the **Character** model.
     * Example usage:
     * ```ts
@@ -193,6 +213,26 @@ export interface PrismaClient<
     * ```
     */
   get game(): Prisma.GameDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.gameCharacter`: Exposes CRUD operations for the **GameCharacter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GameCharacters
+    * const gameCharacters = await prisma.gameCharacter.findMany()
+    * ```
+    */
+  get gameCharacter(): Prisma.GameCharacterDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.forbiddenWord`: Exposes CRUD operations for the **ForbiddenWord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ForbiddenWords
+    * const forbiddenWords = await prisma.forbiddenWord.findMany()
+    * ```
+    */
+  get forbiddenWord(): Prisma.ForbiddenWordDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {
