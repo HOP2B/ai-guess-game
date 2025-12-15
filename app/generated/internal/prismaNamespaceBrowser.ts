@@ -51,8 +51,12 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  User: 'User',
+  Theme: 'Theme',
   Character: 'Character',
-  Game: 'Game'
+  Game: 'Game',
+  GameCharacter: 'GameCharacter',
+  ForbiddenWord: 'ForbiddenWord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,10 +75,29 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  score: 'score'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ThemeScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
+
+
 export const CharacterScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  imageUrl: 'imageUrl'
+  imageUrl: 'imageUrl',
+  points: 'points',
+  themeId: 'themeId'
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
@@ -82,11 +105,31 @@ export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof t
 
 export const GameScalarFieldEnum = {
   id: 'id',
-  characterId: 'characterId',
+  userId: 'userId',
+  themeId: 'themeId',
   status: 'status'
 } as const
 
 export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]
+
+
+export const GameCharacterScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  characterId: 'characterId',
+  guessed: 'guessed'
+} as const
+
+export type GameCharacterScalarFieldEnum = (typeof GameCharacterScalarFieldEnum)[keyof typeof GameCharacterScalarFieldEnum]
+
+
+export const ForbiddenWordScalarFieldEnum = {
+  id: 'id',
+  word: 'word',
+  characterId: 'characterId'
+} as const
+
+export type ForbiddenWordScalarFieldEnum = (typeof ForbiddenWordScalarFieldEnum)[keyof typeof ForbiddenWordScalarFieldEnum]
 
 
 export const SortOrder = {

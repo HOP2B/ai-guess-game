@@ -18,6 +18,16 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model Theme
+ * 
+ */
+export type Theme = Prisma.ThemeModel
+/**
  * Model Character
  * 
  */
@@ -27,3 +37,13 @@ export type Character = Prisma.CharacterModel
  * 
  */
 export type Game = Prisma.GameModel
+/**
+ * Model GameCharacter
+ * 
+ */
+export type GameCharacter = Prisma.GameCharacterModel
+/**
+ * Model ForbiddenWord
+ * 
+ */
+export type ForbiddenWord = Prisma.ForbiddenWordModel

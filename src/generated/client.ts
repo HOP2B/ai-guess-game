@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model Theme
+ * 
+ */
+export type Theme = Prisma.ThemeModel
+/**
  * Model Character
  * 
  */
@@ -54,6 +59,11 @@ export type Character = Prisma.CharacterModel
  * 
  */
 export type Game = Prisma.GameModel
+/**
+ * Model GameCharacter
+ * 
+ */
+export type GameCharacter = Prisma.GameCharacterModel
 /**
  * Model ForbiddenWord
  * 

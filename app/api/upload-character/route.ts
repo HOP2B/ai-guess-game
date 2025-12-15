@@ -9,13 +9,17 @@ export async function POST(request: NextRequest) {
     let file: File | null = null;
     let name: string = '';
 
+    let themeName: string = '';
+
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
       file = formData.get('image') as File;
       name = formData.get('name') as string;
+      themeName = formData.get('theme') as string;
     } else if (contentType.includes('application/json')) {
       const json = await request.json();
       name = json.name;
+      themeName = json.theme;
       const imageData = json.image || json.imageUrl || json.image_url;
 
       if (!imageData) {
@@ -62,18 +66,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unsupported content type. Use multipart/form-data or application/json with base64 image.' }, { status: 400 });
     }
 
-    if (!file || !name) {
-      return NextResponse.json({ error: 'Image and name are required' }, { status: 400 });
+    if (!file || !name || !themeName) {
+      return NextResponse.json({ error: 'Image, name, and theme are required' }, { status: 400 });
     }
 
     const blob = await put(`characters/${file.name}`, file, {
       access: 'public',
     });
 
+    // Find or create theme
+    const theme = await prisma.theme.upsert({
+      where: { name: themeName },
+      update: {},
+      create: { name: themeName },
+    });
+
     const character = await prisma.character.create({
       data: {
         name,
         imageUrl: blob.url,
+        themeId: theme.id,
       },
     });
 
