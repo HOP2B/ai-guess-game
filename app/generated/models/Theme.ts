@@ -37,16 +37,19 @@ export type ThemeSumAggregateOutputType = {
 export type ThemeMinAggregateOutputType = {
   id: number | null
   name: string | null
+  imageUrl: string | null
 }
 
 export type ThemeMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  imageUrl: string | null
 }
 
 export type ThemeCountAggregateOutputType = {
   id: number
   name: number
+  imageUrl: number
   _all: number
 }
 
@@ -62,16 +65,19 @@ export type ThemeSumAggregateInputType = {
 export type ThemeMinAggregateInputType = {
   id?: true
   name?: true
+  imageUrl?: true
 }
 
 export type ThemeMaxAggregateInputType = {
   id?: true
   name?: true
+  imageUrl?: true
 }
 
 export type ThemeCountAggregateInputType = {
   id?: true
   name?: true
+  imageUrl?: true
   _all?: true
 }
 
@@ -164,6 +170,7 @@ export type ThemeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type ThemeGroupByOutputType = {
   id: number
   name: string
+  imageUrl: string | null
   _count: ThemeCountAggregateOutputType | null
   _avg: ThemeAvgAggregateOutputType | null
   _sum: ThemeSumAggregateOutputType | null
@@ -192,6 +199,7 @@ export type ThemeWhereInput = {
   NOT?: Prisma.ThemeWhereInput | Prisma.ThemeWhereInput[]
   id?: Prisma.IntFilter<"Theme"> | number
   name?: Prisma.StringFilter<"Theme"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Theme"> | string | null
   characters?: Prisma.CharacterListRelationFilter
   games?: Prisma.GameListRelationFilter
 }
@@ -199,6 +207,7 @@ export type ThemeWhereInput = {
 export type ThemeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   characters?: Prisma.CharacterOrderByRelationAggregateInput
   games?: Prisma.GameOrderByRelationAggregateInput
 }
@@ -209,6 +218,7 @@ export type ThemeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ThemeWhereInput | Prisma.ThemeWhereInput[]
   OR?: Prisma.ThemeWhereInput[]
   NOT?: Prisma.ThemeWhereInput | Prisma.ThemeWhereInput[]
+  imageUrl?: Prisma.StringNullableFilter<"Theme"> | string | null
   characters?: Prisma.CharacterListRelationFilter
   games?: Prisma.GameListRelationFilter
 }, "id" | "name">
@@ -216,6 +226,7 @@ export type ThemeWhereUniqueInput = Prisma.AtLeast<{
 export type ThemeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ThemeCountOrderByAggregateInput
   _avg?: Prisma.ThemeAvgOrderByAggregateInput
   _max?: Prisma.ThemeMaxOrderByAggregateInput
@@ -229,10 +240,12 @@ export type ThemeScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ThemeScalarWhereWithAggregatesInput | Prisma.ThemeScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Theme"> | number
   name?: Prisma.StringWithAggregatesFilter<"Theme"> | string
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Theme"> | string | null
 }
 
 export type ThemeCreateInput = {
   name: string
+  imageUrl?: string | null
   characters?: Prisma.CharacterCreateNestedManyWithoutThemeInput
   games?: Prisma.GameCreateNestedManyWithoutThemeInput
 }
@@ -240,12 +253,14 @@ export type ThemeCreateInput = {
 export type ThemeUncheckedCreateInput = {
   id?: number
   name: string
+  imageUrl?: string | null
   characters?: Prisma.CharacterUncheckedCreateNestedManyWithoutThemeInput
   games?: Prisma.GameUncheckedCreateNestedManyWithoutThemeInput
 }
 
 export type ThemeUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUpdateManyWithoutThemeNestedInput
   games?: Prisma.GameUpdateManyWithoutThemeNestedInput
 }
@@ -253,6 +268,7 @@ export type ThemeUpdateInput = {
 export type ThemeUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUncheckedUpdateManyWithoutThemeNestedInput
   games?: Prisma.GameUncheckedUpdateManyWithoutThemeNestedInput
 }
@@ -260,20 +276,24 @@ export type ThemeUncheckedUpdateInput = {
 export type ThemeCreateManyInput = {
   id?: number
   name: string
+  imageUrl?: string | null
 }
 
 export type ThemeUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ThemeUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ThemeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
 }
 
 export type ThemeAvgOrderByAggregateInput = {
@@ -283,11 +303,13 @@ export type ThemeAvgOrderByAggregateInput = {
 export type ThemeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
 }
 
 export type ThemeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
 }
 
 export type ThemeSumOrderByAggregateInput = {
@@ -297,6 +319,10 @@ export type ThemeSumOrderByAggregateInput = {
 export type ThemeScalarRelationFilter = {
   is?: Prisma.ThemeWhereInput
   isNot?: Prisma.ThemeWhereInput
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type ThemeCreateNestedOneWithoutCharactersInput = {
@@ -329,12 +355,14 @@ export type ThemeUpdateOneRequiredWithoutGamesNestedInput = {
 
 export type ThemeCreateWithoutCharactersInput = {
   name: string
+  imageUrl?: string | null
   games?: Prisma.GameCreateNestedManyWithoutThemeInput
 }
 
 export type ThemeUncheckedCreateWithoutCharactersInput = {
   id?: number
   name: string
+  imageUrl?: string | null
   games?: Prisma.GameUncheckedCreateNestedManyWithoutThemeInput
 }
 
@@ -356,23 +384,27 @@ export type ThemeUpdateToOneWithWhereWithoutCharactersInput = {
 
 export type ThemeUpdateWithoutCharactersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   games?: Prisma.GameUpdateManyWithoutThemeNestedInput
 }
 
 export type ThemeUncheckedUpdateWithoutCharactersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   games?: Prisma.GameUncheckedUpdateManyWithoutThemeNestedInput
 }
 
 export type ThemeCreateWithoutGamesInput = {
   name: string
+  imageUrl?: string | null
   characters?: Prisma.CharacterCreateNestedManyWithoutThemeInput
 }
 
 export type ThemeUncheckedCreateWithoutGamesInput = {
   id?: number
   name: string
+  imageUrl?: string | null
   characters?: Prisma.CharacterUncheckedCreateNestedManyWithoutThemeInput
 }
 
@@ -394,12 +426,14 @@ export type ThemeUpdateToOneWithWhereWithoutGamesInput = {
 
 export type ThemeUpdateWithoutGamesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUpdateManyWithoutThemeNestedInput
 }
 
 export type ThemeUncheckedUpdateWithoutGamesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUncheckedUpdateManyWithoutThemeNestedInput
 }
 
@@ -446,6 +480,7 @@ export type ThemeCountOutputTypeCountGamesArgs<ExtArgs extends runtime.Types.Ext
 export type ThemeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  imageUrl?: boolean
   characters?: boolean | Prisma.Theme$charactersArgs<ExtArgs>
   games?: boolean | Prisma.Theme$gamesArgs<ExtArgs>
   _count?: boolean | Prisma.ThemeCountOutputTypeDefaultArgs<ExtArgs>
@@ -454,19 +489,22 @@ export type ThemeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type ThemeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  imageUrl?: boolean
 }, ExtArgs["result"]["theme"]>
 
 export type ThemeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  imageUrl?: boolean
 }, ExtArgs["result"]["theme"]>
 
 export type ThemeSelectScalar = {
   id?: boolean
   name?: boolean
+  imageUrl?: boolean
 }
 
-export type ThemeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["theme"]>
+export type ThemeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "imageUrl", ExtArgs["result"]["theme"]>
 export type ThemeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   characters?: boolean | Prisma.Theme$charactersArgs<ExtArgs>
   games?: boolean | Prisma.Theme$gamesArgs<ExtArgs>
@@ -484,6 +522,7 @@ export type $ThemePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    imageUrl: string | null
   }, ExtArgs["result"]["theme"]>
   composites: {}
 }
@@ -911,6 +950,7 @@ export interface Prisma__ThemeClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface ThemeFieldRefs {
   readonly id: Prisma.FieldRef<"Theme", 'Int'>
   readonly name: Prisma.FieldRef<"Theme", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Theme", 'String'>
 }
     
 

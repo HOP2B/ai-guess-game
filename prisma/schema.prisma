@@ -23,6 +23,7 @@ model User {
 model Theme {
   id         Int         @id @default(autoincrement())
   name       String      @unique
+  imageUrl   String?
   characters Character[]
   games      Game[]
 }
