@@ -2,11 +2,14 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [username, setUsername] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       setUsername(storedUsername);
@@ -17,6 +20,26 @@ export default function Home() {
     const value = e.target.value;
     setUsername(value);
     localStorage.setItem('username', value);
+  };
+
+  const handlePlay = async () => {
+    if (!username.trim()) return;
+
+    try {
+      const response = await fetch('/api/save-username', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username.trim() }),
+      });
+
+      if (response.ok) {
+        router.push('/themes');
+      } else {
+        console.error('Failed to save username');
+      }
+    } catch (error) {
+      console.error('Error saving username:', error);
+    }
   };
 
   return (
@@ -41,18 +64,17 @@ export default function Home() {
 
       <div className="flex-grow flex items-center justify-center">
         <div className="text-center max-w-md w-full">
-          <Link href={username.trim() ? "/themes" : "#"}>
-            <button
-              disabled={!username.trim()}
-              className={`w-full mt-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg transform transition-all duration-200 text-lg ${
-                username.trim()
-                  ? 'hover:from-blue-600 hover:to-purple-700 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-transparent'
-                  : 'opacity-50 cursor-not-allowed'
-              }`}
-            >
-              Play
-            </button>
-          </Link>
+          <button
+            onClick={handlePlay}
+            disabled={!username.trim()}
+            className={`w-full mt-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg transform transition-all duration-200 text-lg ${
+              username.trim()
+                ? 'hover:from-blue-600 hover:to-purple-700 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-transparent'
+                : 'opacity-50 cursor-not-allowed'
+            }`}
+          >
+            Play
+          </button>
         </div>
       </div>
 
