@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Theme {
   id: number;
@@ -15,6 +16,7 @@ interface Theme {
 export default function Themes() {
   const [themes, setThemes] = useState<Theme[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchThemes = async () => {
@@ -33,6 +35,10 @@ export default function Themes() {
 
     fetchThemes();
   }, []);
+
+  const handleThemeClick = (themeId: number) => {
+    router.push(`/character?theme=${themeId}`);
+  };
 
 
   if (loading) {
@@ -53,14 +59,16 @@ export default function Themes() {
         <div className="max-w-7xl w-full">
           <div className="grid grid-cols-2 gap-12 mb-40">
             {themes.map((theme) => (
-              <Link key={theme.id} href={`/character?theme=${theme.id}`}>
-                <div className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-16 px-20 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 text-5xl cursor-pointer relative overflow-hidden h-80">
-                  <img src={theme.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'} alt={theme.name} className="w-full h-full object-cover absolute inset-0" onError={(e) => { console.log('Image failed to load:', theme.imageUrl); e.currentTarget.style.display = 'none'; }} />
-                  <div className="absolute bottom-2 left-2 right-2 bg-black/50 rounded px-2 py-1">
-                    <span className="text-white text-lg">{theme.name} ({theme._count.characters} characters)</span>
-                  </div>
+              <div
+                key={theme.id}
+                onClick={() => handleThemeClick(theme.id)}
+                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-16 px-20 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 text-5xl cursor-pointer relative overflow-hidden h-80"
+              >
+                <img src={theme.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'} alt={theme.name} className="w-full h-full object-cover absolute inset-0" onError={(e) => { console.log('Image failed to load:', theme.imageUrl); e.currentTarget.style.display = 'none'; }} />
+                <div className="absolute bottom-2 left-2 right-2 bg-black/50 rounded px-2 py-1">
+                  <span className="text-white text-lg">{theme.name} ({theme._count.characters} characters)</span>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
 
