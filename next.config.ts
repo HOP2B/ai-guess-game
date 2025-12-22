@@ -7,6 +7,22 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*.vercel-storage.com',
       },
+      {
+        protocol: 'https',
+        hostname: '*.wikipedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.wikicommons.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
     ],
   },
 };

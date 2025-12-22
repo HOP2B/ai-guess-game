@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 interface Character {
   id: number;
@@ -19,18 +19,12 @@ export default function CharacterPage() {
   const [inputs, setInputs] = useState<string[]>([]);
   const searchParams = useSearchParams();
   const themeId = searchParams.get('theme');
+  const gameId = searchParams.get('gameId');
   const hasFetched = useRef(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!themeId) return;
-
-    // Check if we already have a character for this theme in localStorage
-    const storedCharacter = localStorage.getItem(`character-${themeId}`);
-    if (storedCharacter) {
-      setCharacter(JSON.parse(storedCharacter));
-      setLoading(false);
-      return;
-    }
 
     if (hasFetched.current) return;
 
@@ -42,8 +36,6 @@ export default function CharacterPage() {
         if (response.ok) {
           const data = await response.json();
           setCharacter(data.character);
-          // Store in localStorage
-          localStorage.setItem(`character-${themeId}`, JSON.stringify(data.character));
         }
       } catch (error) {
         console.error('Failed to fetch character:', error);
@@ -54,6 +46,57 @@ export default function CharacterPage() {
 
     fetchCharacter();
   }, [themeId]);
+
+  const createGame = async (characterId: number) => {
+    const username = localStorage.getItem('username');
+    if (!username) return null;
+
+    try {
+      const response = await fetch('/api/start-game', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, themeId: parseInt(themeId!), characterId }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.game.id;
+      }
+    } catch (error) {
+      console.error('Error creating game:', error);
+    }
+    return null;
+  };
+
+  const handleSubmitHints = async () => {
+    if (!character || inputs.length === 0) return;
+
+    // Create game if not already created
+    let currentGameId = gameId;
+    if (!currentGameId) {
+      currentGameId = await createGame(character.id);
+      if (!currentGameId) return;
+    }
+
+    const hint = inputs.join('. '); // Combine hints
+
+    try {
+      const response = await fetch('/api/give-hint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ gameId: parseInt(currentGameId), hint }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        router.push(`/ai-guessed?guess=${encodeURIComponent(data.guess)}&isCorrect=${data.isCorrect}&character=${encodeURIComponent(data.correctCharacter || '')}`);
+      } else {
+        console.error('Failed to submit hints');
+      }
+    } catch (error) {
+      console.error('Error submitting hints:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -87,6 +130,7 @@ export default function CharacterPage() {
           height={600}
           className="rounded-lg shadow-2xl mx-auto"
           priority
+          unoptimized
         />
         <h1 className="text-3xl font-bold mt-4">{character.name}</h1>
         <div className="mt-8">
@@ -134,11 +178,12 @@ export default function CharacterPage() {
             Back
           </button>
         </Link>
-        <Link href="/ai-guessed">
-          <button className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 text-lg">
-            Next
-          </button>
-        </Link>
+        <button
+          onClick={handleSubmitHints}
+          className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 text-lg"
+        >
+          Submit Hints
+        </button>
       </div>
     </div>
   );

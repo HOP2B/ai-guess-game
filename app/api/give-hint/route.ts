@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Game is not active' }, { status: 400 });
     }
 
-    // Get unguessed characters for the AI to choose from
-    const unguessedGameCharacters = game.gameCharacters.filter(gc => !gc.guessed);
-    const unguessedCharacterNames = unguessedGameCharacters.map(gc => gc.character.name).join(', ');
+    // Get all characters in the theme for the AI to choose from
+    const allThemeCharacters = game.theme.characters;
+    const allCharacterNames = allThemeCharacters.map(c => c.name).join(', ');
 
     // Check forbidden words for all characters in the theme
     const forbiddenWords = await prisma.forbiddenWord.findMany({
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Use DeepSeek to guess the character based on the hint
-    const prompt = `You are playing a character guessing game. The possible characters are: ${unguessedCharacterNames}.
+    const prompt = `You are playing a character guessing game. The possible characters are: ${allCharacterNames}.
 
 The player is giving you a hint about a character they have in mind. Based on this hint: "${hint}"
 
@@ -78,52 +78,46 @@ Guess which character it is. Respond with only the character name, nothing else.
 
     const guess = chatResponse.choices[0]?.message?.content?.trim();
 
-    // Find the guessed character
-    const guessedGameCharacter = unguessedGameCharacters.find(gc => {
-      const normalizedGuess = guess?.toLowerCase().trim();
-      const normalizedName = gc.character.name.toLowerCase().trim();
-      return normalizedGuess === normalizedName ||
-             (normalizedGuess && normalizedGuess.includes(normalizedName)) ||
-             (normalizedGuess && normalizedName.includes(normalizedGuess));
-    });
+    // Find the target character (the one in the game)
+    const targetGameCharacter = game.gameCharacters.find(gc => !gc.guessed);
+    if (!targetGameCharacter) {
+      return NextResponse.json({ error: 'No target character found' }, { status: 400 });
+    }
 
-    const isCorrect = !!guessedGameCharacter;
+    // Check if the guess is correct
+    const normalizedGuess = guess?.toLowerCase().trim();
+    const normalizedTargetName = targetGameCharacter.character.name.toLowerCase().trim();
+    const isCorrect = normalizedGuess === normalizedTargetName ||
+                      (normalizedGuess && normalizedGuess.includes(normalizedTargetName)) ||
+                      (normalizedGuess && normalizedTargetName.includes(normalizedGuess));
 
     if (isCorrect) {
       // Mark the character as guessed
       await prisma.gameCharacter.update({
-        where: { id: guessedGameCharacter!.id },
+        where: { id: targetGameCharacter.id },
         data: { guessed: true },
       });
 
-      // Check if all characters are guessed
-      const unguessedCount = await prisma.gameCharacter.count({
-        where: { gameId, guessed: false },
-      });
+      // Since it's a single character game, complete it
+      const points = targetGameCharacter.character.points;
 
-      if (unguessedCount === 0) {
-        // Calculate total points
-        const totalPoints = game.theme.characters.reduce((sum, c) => sum + c.points, 0);
-
-        // Update game status to completed and add points to user
-        await prisma.$transaction([
-          prisma.game.update({
-            where: { id: gameId },
-            data: { status: 'completed' },
-          }),
-          prisma.user.update({
-            where: { id: game.userId },
-            data: { score: { increment: totalPoints } },
-          }),
-        ]);
-      }
+      // Update game status to completed and add points to user
+      await prisma.$transaction([
+        prisma.game.update({
+          where: { id: gameId },
+          data: { status: 'completed' },
+        }),
+        prisma.user.update({
+          where: { id: game.userId },
+          data: { score: { increment: points } },
+        }),
+      ]);
     }
 
     return NextResponse.json({
       guess,
       isCorrect,
-      correctCharacter: isCorrect ? guessedGameCharacter!.character.name : undefined,
-      gameCompleted: isCorrect && game.gameCharacters.every(gc => gc.guessed || gc.id === guessedGameCharacter!.id),
+      correctCharacter: isCorrect ? targetGameCharacter.character.name : undefined,
     });
   } catch (error) {
     console.error('Error in give-hint:', error);
