@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 interface Character {
@@ -19,9 +19,22 @@ export default function CharacterPage() {
   const [inputs, setInputs] = useState<string[]>([]);
   const searchParams = useSearchParams();
   const themeId = searchParams.get('theme');
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     if (!themeId) return;
+
+    // Check if we already have a character for this theme in localStorage
+    const storedCharacter = localStorage.getItem(`character-${themeId}`);
+    if (storedCharacter) {
+      setCharacter(JSON.parse(storedCharacter));
+      setLoading(false);
+      return;
+    }
+
+    if (hasFetched.current) return;
+
+    hasFetched.current = true;
 
     const fetchCharacter = async () => {
       try {
@@ -29,6 +42,8 @@ export default function CharacterPage() {
         if (response.ok) {
           const data = await response.json();
           setCharacter(data.character);
+          // Store in localStorage
+          localStorage.setItem(`character-${themeId}`, JSON.stringify(data.character));
         }
       } catch (error) {
         console.error('Failed to fetch character:', error);
