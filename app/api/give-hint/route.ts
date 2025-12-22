@@ -91,27 +91,25 @@ Guess which character it is. Respond with only the character name, nothing else.
                       (normalizedGuess && normalizedGuess.includes(normalizedTargetName)) ||
                       (normalizedGuess && normalizedTargetName.includes(normalizedGuess));
 
+    // Mark the character as guessed (even if wrong, the attempt was made)
+    await prisma.gameCharacter.update({
+      where: { id: targetGameCharacter.id },
+      data: { guessed: true },
+    });
+
+    // Complete the game
+    await prisma.game.update({
+      where: { id: gameId },
+      data: { status: 'completed' },
+    });
+
+    // Add points only if correct
     if (isCorrect) {
-      // Mark the character as guessed
-      await prisma.gameCharacter.update({
-        where: { id: targetGameCharacter.id },
-        data: { guessed: true },
-      });
-
-      // Since it's a single character game, complete it
       const points = targetGameCharacter.character.points;
-
-      // Update game status to completed and add points to user
-      await prisma.$transaction([
-        prisma.game.update({
-          where: { id: gameId },
-          data: { status: 'completed' },
-        }),
-        prisma.user.update({
-          where: { id: game.userId },
-          data: { score: { increment: points } },
-        }),
-      ]);
+      await prisma.user.update({
+        where: { id: game.userId },
+        data: { score: { increment: points } },
+      });
     }
 
     return NextResponse.json({
