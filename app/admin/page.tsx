@@ -25,6 +25,8 @@ export default function Admin() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [expandedThemes, setExpandedThemes] = useState<Set<number>>(new Set());
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   // Form states
   const [newThemeName, setNewThemeName] = useState('');
@@ -32,7 +34,7 @@ export default function Admin() {
   const [newCharacterName, setNewCharacterName] = useState('');
   const [newCharacterImage, setNewCharacterImage] = useState('');
   const [newCharacterTheme, setNewCharacterTheme] = useState('');
-  const [newForbiddenWord, setNewForbiddenWord] = useState('');
+  const [newForbiddenWords, setNewForbiddenWords] = useState('');
   const [selectedCharacterForWord, setSelectedCharacterForWord] = useState<number | null>(null);
 
   useEffect(() => {
@@ -62,6 +64,21 @@ export default function Admin() {
     }
   };
 
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const toggleThemeExpansion = (themeId: number) => {
+    const newExpanded = new Set(expandedThemes);
+    if (newExpanded.has(themeId)) {
+      newExpanded.delete(themeId);
+    } else {
+      newExpanded.add(themeId);
+    }
+    setExpandedThemes(newExpanded);
+  };
+
   const handleCreateTheme = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -75,12 +92,14 @@ export default function Admin() {
       });
 
       if (response.ok) {
-        setNewThemeName('');
-        setNewThemeImage('');
+        showToast(`Theme "${newThemeName}" created successfully!`);
         fetchData();
+      } else {
+        showToast('Failed to create theme', 'error');
       }
     } catch (error) {
       console.error('Failed to create theme:', error);
+      showToast('Failed to create theme', 'error');
     }
   };
 
@@ -98,37 +117,113 @@ export default function Admin() {
       });
 
       if (response.ok) {
-        setNewCharacterName('');
-        setNewCharacterImage('');
-        setNewCharacterTheme('');
+        showToast(`Character "${newCharacterName}" created successfully!`);
         fetchData();
+      } else {
+        showToast('Failed to create character', 'error');
       }
     } catch (error) {
       console.error('Failed to create character:', error);
+      showToast('Failed to create character', 'error');
     }
   };
 
   const handleAddForbiddenWord = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCharacterForWord) return;
+    if (!selectedCharacterForWord || !newForbiddenWords.trim()) return;
+
+    const words = newForbiddenWords.split(',').map(w => w.trim()).filter(w => w.length > 0);
+
+    if (words.length === 0) return;
 
     try {
-      const response = await fetch('/api/forbidden-words', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          characterId: selectedCharacterForWord,
-          word: newForbiddenWord
-        }),
+      // Add all words
+      const promises = words.map(word =>
+        fetch('/api/forbidden-words', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            characterId: selectedCharacterForWord,
+            word: word
+          }),
+        })
+      );
+
+      const results = await Promise.all(promises);
+      const successCount = results.filter(r => r.ok).length;
+
+      if (successCount > 0) {
+        showToast(`${successCount} forbidden word${successCount > 1 ? 's' : ''} added successfully!`);
+        if (successCount === words.length) {
+          setNewForbiddenWords('');
+        }
+        fetchData();
+      } else {
+        showToast('Failed to add forbidden words', 'error');
+      }
+    } catch (error) {
+      console.error('Failed to add forbidden words:', error);
+      showToast('Failed to add forbidden words', 'error');
+    }
+  };
+
+  const handleDeleteTheme = async (themeId: number, themeName: string) => {
+    if (!confirm(`Are you sure you want to delete the theme "${themeName}"? This will also delete all characters in this theme.`)) return;
+
+    try {
+      const response = await fetch(`/api/themes/${themeId}`, {
+        method: 'DELETE',
       });
 
       if (response.ok) {
-        setNewForbiddenWord('');
-        setSelectedCharacterForWord(null);
+        showToast(`Theme "${themeName}" deleted successfully!`);
         fetchData();
+      } else {
+        showToast('Failed to delete theme', 'error');
       }
     } catch (error) {
-      console.error('Failed to add forbidden word:', error);
+      console.error('Failed to delete theme:', error);
+      showToast('Failed to delete theme', 'error');
+    }
+  };
+
+  const handleDeleteCharacter = async (characterId: number, characterName: string) => {
+    if (!confirm(`Are you sure you want to delete the character "${characterName}"?`)) return;
+
+    try {
+      const response = await fetch(`/api/characters/${characterId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        showToast(`Character "${characterName}" deleted successfully!`);
+        fetchData();
+      } else {
+        showToast('Failed to delete character', 'error');
+      }
+    } catch (error) {
+      console.error('Failed to delete character:', error);
+      showToast('Failed to delete character', 'error');
+    }
+  };
+
+  const handleDeleteForbiddenWord = async (characterId: number, word: string) => {
+    if (!confirm(`Are you sure you want to delete the forbidden word "${word}"?`)) return;
+
+    try {
+      const response = await fetch(`/api/forbidden-words/${characterId}/${word}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        showToast(`Forbidden word "${word}" deleted successfully!`);
+        fetchData();
+      } else {
+        showToast('Failed to delete forbidden word', 'error');
+      }
+    } catch (error) {
+      console.error('Failed to delete forbidden word:', error);
+      showToast('Failed to delete forbidden word', 'error');
     }
   };
 
@@ -239,12 +334,12 @@ export default function Admin() {
                   </option>
                 ))}
               </select>
-              <input
-                type="text"
-                placeholder="Forbidden word"
-                value={newForbiddenWord}
-                onChange={(e) => setNewForbiddenWord(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60"
+              <textarea
+                placeholder="Forbidden words (comma-separated)"
+                value={newForbiddenWords}
+                onChange={(e) => setNewForbiddenWords(e.target.value)}
+                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 resize-none"
+                rows={3}
                 required
               />
               <button
@@ -257,35 +352,85 @@ export default function Admin() {
           </div>
         </div>
 
+        {/* Toast Notification */}
+        {toast && (
+          <div className={`fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+            toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+          } text-white`}>
+            {toast.message}
+          </div>
+        )}
+
         {/* Data Overview */}
-        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="mt-12">
           {/* Themes List */}
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
             <h2 className="text-2xl font-bold text-white mb-4">Themes ({themes.length})</h2>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {themes.map((theme) => (
-                <div key={theme.id} className="flex justify-between text-white bg-white/10 rounded p-2">
-                  <span>{theme.name}</span>
-                  <span className="text-sm text-gray-300">{theme._count.characters} characters</span>
-                </div>
-              ))}
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {themes.map((theme) => {
+                const themeCharacters = characters.filter(c => c.themeId === theme.id);
+                const isExpanded = expandedThemes.has(theme.id);
+
+                return (
+                  <div key={theme.id} className="bg-white/10 rounded p-3">
+                    <div className="flex justify-between items-center">
+                      <button
+                        onClick={() => toggleThemeExpansion(theme.id)}
+                        className="flex items-center text-white hover:text-blue-300"
+                      >
+                        <span className="mr-2">{isExpanded ? '▼' : '▶'}</span>
+                        <span className="font-semibold">{theme.name}</span>
+                        <span className="text-sm text-gray-300 ml-2">({theme._count.characters} characters)</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTheme(theme.id, theme.name)}
+                        className="text-red-400 hover:text-red-300 text-sm px-2 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+
+                    {isExpanded && (
+                      <div className="mt-3 ml-6 space-y-2">
+                        {themeCharacters.map((character) => (
+                          <div key={character.id} className="bg-white/5 rounded p-2">
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <div className="text-white font-medium">{character.name}</div>
+                                <div className="text-sm text-gray-300">
+                                  Forbidden: {character.forbiddenWords.map(fw => (
+                                    <span key={fw.word} className="inline-flex items-center mr-1">
+                                      {fw.word}
+                                      <button
+                                        onClick={() => handleDeleteForbiddenWord(character.id, fw.word)}
+                                        className="ml-1 text-red-400 hover:text-red-300 text-xs"
+                                      >
+                                        ×
+                                      </button>
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => handleDeleteCharacter(character.id, character.name)}
+                                className="text-red-400 hover:text-red-300 text-sm px-2 py-1 rounded"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                        {themeCharacters.length === 0 && (
+                          <div className="text-gray-400 text-sm italic">No characters in this theme</div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* Characters List */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-            <h2 className="text-2xl font-bold text-white mb-4">Characters ({characters.length})</h2>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {characters.map((character) => (
-                <div key={character.id} className="text-white bg-white/10 rounded p-2">
-                  <div className="font-semibold">{character.name}</div>
-                  <div className="text-sm text-gray-300">
-                    Forbidden words: {character.forbiddenWords.map(fw => fw.word).join(', ') || 'None'}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
