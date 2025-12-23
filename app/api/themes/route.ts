@@ -17,3 +17,25 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to fetch themes' }, { status: 500 });
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const { name, imageUrl } = await request.json();
+
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return NextResponse.json({ error: 'Theme name is required' }, { status: 400 });
+    }
+
+    const theme = await prisma.theme.create({
+      data: {
+        name: name.trim(),
+        imageUrl: imageUrl || null,
+      },
+    });
+
+    return NextResponse.json({ theme });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to create theme' }, { status: 500 });
+  }
+}

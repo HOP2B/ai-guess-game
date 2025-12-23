@@ -89,7 +89,7 @@ export default function CharacterPage() {
 
       if (response.ok) {
         const data = await response.json();
-        router.push(`/ai-guessed?guess=${encodeURIComponent(data.guess)}&isCorrect=${data.isCorrect}&character=${encodeURIComponent(data.correctCharacter || '')}&imageUrl=${encodeURIComponent(character.imageUrl)}`);
+        router.push(`/ai-guessed?guess=${encodeURIComponent(data.guess)}&isCorrect=${data.isCorrect}&character=${encodeURIComponent(data.correctCharacter || '')}&imageUrl=${encodeURIComponent(data.guessedCharacterImage || '')}`);
       } else {
         console.error('Failed to submit hints');
       }

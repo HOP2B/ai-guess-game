@@ -91,6 +91,13 @@ Guess which character it is. Respond with only the character name, nothing else.
                       (normalizedGuess && normalizedGuess.includes(normalizedTargetName)) ||
                       (normalizedGuess && normalizedTargetName.includes(normalizedGuess));
 
+    // Find the guessed character (if it exists in the theme)
+    const guessedCharacter = game.theme.characters.find(c =>
+      c.name.toLowerCase().trim() === normalizedGuess ||
+      (normalizedGuess && normalizedGuess.includes(c.name.toLowerCase().trim())) ||
+      (normalizedGuess && c.name.toLowerCase().trim().includes(normalizedGuess))
+    );
+
     // Mark the character as guessed (even if wrong, the attempt was made)
     await prisma.gameCharacter.update({
       where: { id: targetGameCharacter.id },
@@ -116,6 +123,7 @@ Guess which character it is. Respond with only the character name, nothing else.
       guess,
       isCorrect,
       correctCharacter: isCorrect ? targetGameCharacter.character.name : undefined,
+      guessedCharacterImage: guessedCharacter?.imageUrl,
     });
   } catch (error) {
     console.error('Error in give-hint:', error);
