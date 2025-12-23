@@ -78,13 +78,22 @@ export default function Home() {
         </div>
       </div>
 
-      <Link href="/leaderboard">
-        <div className="absolute bottom-4 right-4 bg-white/10 backdrop-blur-lg rounded-full p-6 border border-white/20 shadow-lg cursor-pointer hover:bg-white/20 transition-all">
-          <div className="text-white text-lg font-semibold text-center">
-            Leaderboard
+      <div className="absolute bottom-4 right-4 flex gap-4">
+        <Link href="/leaderboard">
+          <div className="bg-white/10 backdrop-blur-lg rounded-full p-6 border border-white/20 shadow-lg cursor-pointer hover:bg-white/20 transition-all">
+            <div className="text-white text-lg font-semibold text-center">
+              Leaderboard
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+        <Link href="/admin">
+          <div className="bg-white/10 backdrop-blur-lg rounded-full p-6 border border-white/20 shadow-lg cursor-pointer hover:bg-white/20 transition-all">
+            <div className="text-white text-lg font-semibold text-center">
+              Admin
+            </div>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 }
