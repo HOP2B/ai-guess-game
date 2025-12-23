@@ -36,9 +36,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Game is not active' }, { status: 400 });
     }
 
-    // Get all characters in the theme for the AI to choose from
-    const allThemeCharacters = game.theme.characters;
-    const allCharacterNames = allThemeCharacters.map(c => c.name).join(', ');
+    // Get all characters in the database for the AI to choose from
+    const allCharacters = await prisma.character.findMany({
+      select: { name: true },
+    });
+    const allCharacterNames = allCharacters.map(c => c.name).join(', ');
 
     // Check forbidden words for all characters in the theme
     const forbiddenWords = await prisma.forbiddenWord.findMany({
@@ -91,8 +93,9 @@ Guess which character it is. Respond with only the character name, nothing else.
                       (normalizedGuess && normalizedGuess.includes(normalizedTargetName)) ||
                       (normalizedGuess && normalizedTargetName.includes(normalizedGuess));
 
-    // Find the guessed character (if it exists in the theme)
-    const guessedCharacter = game.theme.characters.find(c =>
+    // Find the guessed character from all characters in database
+    const allCharactersFull = await prisma.character.findMany();
+    const guessedCharacter = allCharactersFull.find(c =>
       c.name.toLowerCase().trim() === normalizedGuess ||
       (normalizedGuess && normalizedGuess.includes(c.name.toLowerCase().trim())) ||
       (normalizedGuess && c.name.toLowerCase().trim().includes(normalizedGuess))

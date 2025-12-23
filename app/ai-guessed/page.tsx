@@ -15,14 +15,20 @@ export default function AiGuessed() {
     <div className="flex flex-col min-h-screen text-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pb-5 pt-5">
       <div className="text-lg mb-2">The AI identified this character</div>
       <div className="flex-grow flex items-center justify-center">
-        <Image
-          src={imageUrl}
-          alt="Character"
-          width={250}
-          height={350}
-          className="rounded-lg shadow-2xl"
-          unoptimized
-        />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt="Character"
+            width={250}
+            height={350}
+            className="rounded-lg shadow-2xl"
+            unoptimized
+          />
+        ) : (
+          <div className="w-64 h-96 bg-gray-300 rounded-lg shadow-2xl flex items-center justify-center">
+            <span className="text-gray-600">No Image</span>
+          </div>
+        )}
       </div>
       <h1 className="text-xl font-bold mb-2">{guess}</h1>
       <div className="text-base mb-4">
