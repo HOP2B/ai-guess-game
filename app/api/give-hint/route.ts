@@ -78,7 +78,7 @@ Guess which character it is. Respond with only the character name, nothing else.
       max_tokens: 1024,
     });
 
-    const guess = chatResponse.choices[0]?.message?.content?.trim();
+    let guess = chatResponse.choices[0]?.message?.content?.trim();
 
     // Find the target character (the one in the game)
     const targetGameCharacter = game.gameCharacters.find(gc => !gc.guessed);
@@ -95,11 +95,20 @@ Guess which character it is. Respond with only the character name, nothing else.
 
     // Find the guessed character from all characters in database
     const allCharactersFull = await prisma.character.findMany();
-    const guessedCharacter = allCharactersFull.find(c =>
+    let guessedCharacter = allCharactersFull.find(c =>
       c.name.toLowerCase().trim() === normalizedGuess ||
       (normalizedGuess && normalizedGuess.includes(c.name.toLowerCase().trim())) ||
       (normalizedGuess && c.name.toLowerCase().trim().includes(normalizedGuess))
     );
+
+    // If AI guessed a non-existent character, pick a random wrong character
+    if (!guessedCharacter) {
+      const wrongCharacters = allCharactersFull.filter(c => c.id !== targetGameCharacter.characterId);
+      if (wrongCharacters.length > 0) {
+        guessedCharacter = wrongCharacters[Math.floor(Math.random() * wrongCharacters.length)];
+        guess = guessedCharacter.name; // Override the AI's invalid guess
+      }
+    }
 
     // Mark the character as guessed (even if wrong, the attempt was made)
     await prisma.gameCharacter.update({
@@ -125,7 +134,7 @@ Guess which character it is. Respond with only the character name, nothing else.
     return NextResponse.json({
       guess,
       isCorrect,
-      correctCharacter: isCorrect ? targetGameCharacter.character.name : undefined,
+      correctCharacter: targetGameCharacter.character.name,
       guessedCharacterImage: guessedCharacter?.imageUrl,
     });
   } catch (error) {
