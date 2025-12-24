@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const themeId = parseInt(params.id);
+    const { id } = await params;
+    const themeId = parseInt(id);
 
     // Delete theme (cascade will delete characters and forbidden words)
     await prisma.theme.delete({
