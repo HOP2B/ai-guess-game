@@ -54,7 +54,7 @@ model GameCharacter {
   gameId      Int
   game        Game      @relation(fields: [gameId], references: [id])
   characterId Int
-  character   Character @relation(fields: [characterId], references: [id])
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
   guessed     Boolean   @default(false)
 
   @@unique([gameId, characterId])
@@ -64,7 +64,7 @@ model ForbiddenWord {
   id          Int       @id @default(autoincrement())
   word        String
   characterId Int
-  character   Character @relation(fields: [characterId], references: [id])
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
 
   @@unique([word, characterId])
 }
