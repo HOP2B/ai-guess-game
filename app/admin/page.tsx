@@ -229,26 +229,35 @@ export default function Admin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading admin panel...</div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="text-white text-2xl">Loading admin panel...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-white text-center mb-8">Admin Panel</h1>
+    <div className="min-h-screen bg-black p-8 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-10 right-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-24 h-24 bg-gray-400 rounded-full animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <h1 className="text-4xl font-bold text-white text-center mb-8 animate-fade-in">Admin Panel</h1>
 
         <Link href="/">
-          <button className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg mb-8">
+          <button className="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg mb-8 transition-colors duration-300">
             Back to Game
           </button>
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Create Theme */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-6 border border-gray-700 animate-fade-in">
             <h2 className="text-2xl font-bold text-white mb-4">Create Theme</h2>
             <form onSubmit={handleCreateTheme} className="space-y-4">
               <input
@@ -256,7 +265,7 @@ export default function Admin() {
                 placeholder="Theme name"
                 value={newThemeName}
                 onChange={(e) => setNewThemeName(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 required
               />
               <input
@@ -264,11 +273,11 @@ export default function Admin() {
                 placeholder="Theme image URL (optional)"
                 value={newThemeImage}
                 onChange={(e) => setNewThemeImage(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
               />
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+                className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
               >
                 Create Theme
               </button>
@@ -276,7 +285,7 @@ export default function Admin() {
           </div>
 
           {/* Create Character */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-6 border border-gray-700 animate-fade-in delay-200">
             <h2 className="text-2xl font-bold text-white mb-4">Create Character</h2>
             <form onSubmit={handleCreateCharacter} className="space-y-4">
               <input
@@ -284,13 +293,13 @@ export default function Admin() {
                 placeholder="Character name"
                 value={newCharacterName}
                 onChange={(e) => setNewCharacterName(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 required
               />
               <select
                 value={newCharacterTheme}
                 onChange={(e) => setNewCharacterTheme(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 required
               >
                 <option value="">Select theme</option>
@@ -305,12 +314,12 @@ export default function Admin() {
                 placeholder="Character image URL"
                 value={newCharacterImage}
                 onChange={(e) => setNewCharacterImage(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 required
               />
               <button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg"
+                className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
               >
                 Create Character
               </button>
@@ -318,13 +327,13 @@ export default function Admin() {
           </div>
 
           {/* Add Forbidden Word */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-6 border border-gray-700 animate-fade-in delay-500">
             <h2 className="text-2xl font-bold text-white mb-4">Add Forbidden Word</h2>
             <form onSubmit={handleAddForbiddenWord} className="space-y-4">
               <select
                 value={selectedCharacterForWord || ''}
                 onChange={(e) => setSelectedCharacterForWord(parseInt(e.target.value))}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 required
               >
                 <option value="">Select character</option>
@@ -338,13 +347,13 @@ export default function Admin() {
                 placeholder="Forbidden words (comma-separated)"
                 value={newForbiddenWords}
                 onChange={(e) => setNewForbiddenWords(e.target.value)}
-                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 resize-none"
+                className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
                 rows={3}
                 required
               />
               <button
                 type="submit"
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg"
+                className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 px-4 rounded-lg transition-colors duration-300"
               >
                 Add Forbidden Word
               </button>
@@ -362,9 +371,9 @@ export default function Admin() {
         )}
 
         {/* Data Overview */}
-        <div className="mt-12">
+        <div className="mt-12 animate-fade-in delay-1000">
           {/* Themes List */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+          <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
             <h2 className="text-2xl font-bold text-white mb-4">Themes ({themes.length})</h2>
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {themes.map((theme) => {
@@ -372,19 +381,19 @@ export default function Admin() {
                 const isExpanded = expandedThemes.has(theme.id);
 
                 return (
-                  <div key={theme.id} className="bg-white/10 rounded p-3">
+                  <div key={theme.id} className="bg-gray-800/50 rounded p-3">
                     <div className="flex justify-between items-center">
                       <button
                         onClick={() => toggleThemeExpansion(theme.id)}
-                        className="flex items-center text-white hover:text-blue-300"
+                        className="flex items-center text-white hover:text-gray-300 transition-colors duration-200"
                       >
-                        <span className="mr-2">{isExpanded ? '▼' : '▶'}</span>
+                        <span className="mr-2 text-lg">{isExpanded ? '▼' : '▶'}</span>
                         <span className="font-semibold">{theme.name}</span>
-                        <span className="text-sm text-gray-300 ml-2">({theme._count.characters} characters)</span>
+                        <span className="text-sm text-gray-400 ml-2">({theme._count.characters} characters)</span>
                       </button>
                       <button
                         onClick={() => handleDeleteTheme(theme.id, theme.name)}
-                        className="text-red-400 hover:text-red-300 text-sm px-2 py-1 rounded"
+                        className="text-red-400 hover:text-red-300 text-sm px-3 py-1 rounded bg-red-900/20 hover:bg-red-900/40 transition-all duration-200"
                       >
                         Delete
                       </button>
@@ -393,17 +402,17 @@ export default function Admin() {
                     {isExpanded && (
                       <div className="mt-3 ml-6 space-y-2">
                         {themeCharacters.map((character) => (
-                          <div key={character.id} className="bg-white/5 rounded p-2">
+                          <div key={character.id} className="bg-gray-700/30 rounded p-3">
                             <div className="flex justify-between items-center">
                               <div>
                                 <div className="text-white font-medium">{character.name}</div>
-                                <div className="text-sm text-gray-300">
+                                <div className="text-sm text-gray-400 mt-1">
                                   Forbidden: {character.forbiddenWords.map(fw => (
-                                    <span key={fw.word} className="inline-flex items-center mr-1">
+                                    <span key={fw.word} className="inline-flex items-center mr-2 bg-red-600/20 text-red-300 px-2 py-1 rounded text-xs">
                                       {fw.word}
                                       <button
                                         onClick={() => handleDeleteForbiddenWord(character.id, fw.word)}
-                                        className="ml-1 text-red-400 hover:text-red-300 text-xs"
+                                        className="ml-1 text-red-400 hover:text-red-300"
                                       >
                                         ×
                                       </button>
@@ -413,7 +422,7 @@ export default function Admin() {
                               </div>
                               <button
                                 onClick={() => handleDeleteCharacter(character.id, character.name)}
-                                className="text-red-400 hover:text-red-300 text-sm px-2 py-1 rounded"
+                                className="text-red-400 hover:text-red-300 text-sm px-3 py-1 rounded bg-red-900/20 hover:bg-red-900/40 transition-all duration-200"
                               >
                                 Delete
                               </button>
@@ -421,7 +430,7 @@ export default function Admin() {
                           </div>
                         ))}
                         {themeCharacters.length === 0 && (
-                          <div className="text-gray-400 text-sm italic">No characters in this theme</div>
+                          <div className="text-gray-500 text-sm italic">No characters in this theme</div>
                         )}
                       </div>
                     )}

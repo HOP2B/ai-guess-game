@@ -67,9 +67,9 @@ export async function POST(request: NextRequest) {
     // Use DeepSeek to guess the character based on the hint
     const prompt = `You are playing a character guessing game. The possible characters are: ${allCharacterNames}.
 
-The player is giving you a hint about a character they have in mind. Based on this hint: "${hint}"
+The player is giving you multiple hints about a character they have in mind. Here are all the hints combined: "${hint}"
 
-Guess which character it is. Respond with only the character name, nothing else. If you're not sure, make your best guess.`;
+Consider all the hints together to make your guess. Guess which character it is. Respond with only the character name, nothing else. If you're not sure, make your best guess.`;
 
     const chatResponse = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
