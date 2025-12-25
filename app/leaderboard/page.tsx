@@ -33,38 +33,55 @@ export default function Leaderboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
-        <div className="text-white text-2xl">Loading leaderboard...</div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="text-white text-2xl">Loading leaderboard...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col p-4">
-      <h1 className="text-6xl font-bold text-white text-center mt-16 mb-16">
-        Leaderboard
-      </h1>
+    <div className="min-h-screen bg-black flex flex-col p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 left-20 w-40 h-40 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-gray-400 rounded-full animate-pulse delay-1000"></div>
+      </div>
 
-      <div className="flex-grow flex items-center justify-center">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-2xl max-w-md w-full">
-          <div className="space-y-6">
-            {users.length === 0 ? (
-              <div className="text-white text-lg text-center">No players yet</div>
-            ) : (
-              users.map((user, index) => (
-                <div key={user.id} className="flex justify-between text-white text-lg">
-                  <span>{index + 1}. {user.username}</span>
-                  <span>{user.score} points</span>
-                </div>
-              ))
-            )}
+      <div className="relative z-10">
+        <h1 className="text-6xl font-bold text-white text-center mt-16 mb-16 animate-fade-in">
+          Leaderboard
+        </h1>
+
+        <div className="flex-grow flex items-center justify-center">
+          <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-8 border border-gray-700 shadow-2xl max-w-md w-full animate-scale-in">
+            <div className="space-y-6">
+              {users.length === 0 ? (
+                <div className="text-gray-400 text-lg text-center animate-fade-in">No players yet</div>
+              ) : (
+                users.map((user, index) => (
+                  <div key={user.id} className="flex justify-between text-white text-lg animate-slide-in-left"
+                       style={{ animationDelay: `${index * 0.1}s` }}>
+                    <span className="flex items-center">
+                      <span className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
+                        {index + 1}
+                      </span>
+                      {user.username}
+                    </span>
+                    <span className="font-semibold">{user.score} points</span>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <Link href="/">
+              <button className="w-full mt-8 bg-white text-black hover:bg-gray-200 font-semibold py-3 px-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white">
+                Back to Game
+              </button>
+            </Link>
           </div>
-
-          <Link href="/">
-            <button className="w-full mt-8 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400">
-              Back to Game
-            </button>
-          </Link>
         </div>
       </div>
     </div>

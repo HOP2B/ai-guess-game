@@ -43,56 +43,66 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex flex-col p-4 relative">
-      <h1 className="text-8xl font-bold text-white text-center mt-10 mb-16">
-        AI Guess Game
-      </h1>
-
-      <div className="text-center max-w-md w-full mx-auto mb-8">
-        <label htmlFor="userInput" className="block text-white text-lg mt-10 font-medium mb-4">
-          Enter your username
-        </label>
-        <input
-          id="userInput"
-          type="text"
-          value={username}
-          onChange={handleUsernameChange}
-          placeholder="Enter your username..."
-          className="w-full px-6 py-4 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent backdrop-blur-sm"
-        />
+    <div className="min-h-screen bg-black flex flex-col p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gray-400 rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-gray-600 rounded-full animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-10 w-16 h-16 bg-gray-500 rounded-full animate-pulse delay-1500"></div>
       </div>
 
-      <div className="flex-grow flex items-center justify-center">
-        <div className="text-center max-w-md w-full">
-          <button
-            onClick={handlePlay}
-            disabled={!username.trim()}
-            className={`w-full mt-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-4 px-6 rounded-lg shadow-lg transform transition-all duration-200 text-lg ${
-              username.trim()
-                ? 'hover:from-blue-600 hover:to-purple-700 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-transparent'
-                : 'opacity-50 cursor-not-allowed'
-            }`}
-          >
-            Play
-          </button>
+      <div className="relative z-10">
+        <h1 className="text-8xl font-bold text-white text-center mt-10 mb-16 animate-fade-in">
+          AI Guess Game
+        </h1>
+
+        <div className="text-center max-w-md w-full mx-auto mb-8 animate-slide-up">
+          <label htmlFor="userInput" className="block text-white text-lg mt-10 font-medium mb-4">
+            Enter your username
+          </label>
+          <input
+            id="userInput"
+            type="text"
+            value={username}
+            onChange={handleUsernameChange}
+            placeholder="Enter your username..."
+            className="w-full px-6 py-4 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent transition-all duration-300"
+          />
         </div>
-      </div>
 
-      <div className="absolute bottom-4 right-4 flex gap-4">
-        <Link href="/leaderboard">
-          <div className="bg-white/10 backdrop-blur-lg rounded-full p-6 border border-white/20 shadow-lg cursor-pointer hover:bg-white/20 transition-all">
-            <div className="text-white text-lg font-semibold text-center">
-              Leaderboard
-            </div>
+        <div className="flex-grow flex items-center justify-center animate-slide-up delay-200">
+          <div className="text-center max-w-md w-full">
+            <button
+              onClick={handlePlay}
+              disabled={!username.trim()}
+              className={`w-full mt-1 bg-white text-black font-semibold py-4 px-6 rounded-lg shadow-lg transform transition-all duration-300 text-lg ${
+                username.trim()
+                  ? 'hover:bg-gray-200 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black'
+                  : 'opacity-50 cursor-not-allowed'
+              }`}
+            >
+              Play
+            </button>
           </div>
-        </Link>
-        <Link href="/admin">
-          <div className="bg-white/10 backdrop-blur-lg rounded-full p-6 border border-white/20 shadow-lg cursor-pointer hover:bg-white/20 transition-all">
-            <div className="text-white text-lg font-semibold text-center">
-              Admin
+        </div>
+
+        <div className="absolute bottom-4 right-4 flex gap-4 animate-fade-in delay-500">
+          <Link href="/leaderboard">
+            <div className="bg-gray-800 backdrop-blur-lg rounded-full p-6 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110">
+              <div className="text-white text-lg font-semibold text-center">
+                Leaderboard
+              </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+          <Link href="/admin">
+            <div className="bg-gray-800 backdrop-blur-lg rounded-full p-6 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110">
+              <div className="text-white text-lg font-semibold text-center">
+                Admin
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );
