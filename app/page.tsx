@@ -71,14 +71,14 @@ export default function Home() {
           />
         </div>
 
-        <div className="flex-grow flex items-center justify-center animate-slide-up delay-200">
+        <div className="flex-grow flex items-center justify-center animate-slide-up delay-200 px-4">
           <div className="text-center max-w-md w-full">
             <button
               onClick={handlePlay}
               disabled={!username.trim()}
-              className={`w-full mt-1 bg-white text-black font-semibold py-4 px-6 rounded-lg shadow-lg transform transition-all duration-300 text-lg ${
+              className={`w-full mt-1 bg-white text-black font-semibold py-6 px-6 rounded-lg shadow-lg transform transition-all duration-300 text-xl min-h-[64px] touch-manipulation ${
                 username.trim()
-                  ? 'hover:bg-gray-200 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black'
+                  ? 'hover:bg-gray-200 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black active:scale-95'
                   : 'opacity-50 cursor-not-allowed'
               }`}
             >
@@ -87,17 +87,17 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute bottom-4 right-4 flex gap-4 animate-fade-in delay-500">
+        <div className="absolute bottom-4 right-4 flex flex-col gap-3 animate-fade-in delay-500">
           <Link href="/leaderboard">
-            <div className="bg-gray-800 backdrop-blur-lg rounded-full p-6 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110">
-              <div className="text-white text-lg font-semibold text-center">
+            <div className="bg-gray-800 backdrop-blur-lg rounded-full p-4 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110 min-w-[120px] min-h-[60px] flex items-center justify-center touch-manipulation">
+              <div className="text-white text-base font-semibold text-center">
                 Leaderboard
               </div>
             </div>
           </Link>
           <Link href="/admin">
-            <div className="bg-gray-800 backdrop-blur-lg rounded-full p-6 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110">
-              <div className="text-white text-lg font-semibold text-center">
+            <div className="bg-gray-800 backdrop-blur-lg rounded-full p-4 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110 min-w-[120px] min-h-[60px] flex items-center justify-center touch-manipulation">
+              <div className="text-white text-base font-semibold text-center">
                 Admin
               </div>
             </div>

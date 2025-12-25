@@ -36,6 +36,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Game is not active' }, { status: 400 });
     }
 
+    // Find the target character (the one in the game)
+    const targetGameCharacter = game.gameCharacters.find(gc => !gc.guessed);
+    if (!targetGameCharacter) {
+      return NextResponse.json({ error: 'No target character found' }, { status: 400 });
+    }
+
     // Get all characters in the database for the AI to choose from
     const allCharacters = await prisma.character.findMany({
       select: { name: true },
@@ -64,26 +70,33 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Use DeepSeek to guess the character based on the hint
-    const prompt = `You are playing a character guessing game. The possible characters are: ${allCharacterNames}.
+    // Balanced AI prompt for character guessing
+    const prompt = `You are playing a character guessing game.
 
-The player is giving you multiple hints about a character they have in mind. Here are all the hints combined: "${hint}"
+Possible characters: ${allCharacterNames}
 
-Consider all the hints together to make your guess. Guess which character it is. Respond with only the character name, nothing else. If you're not sure, make your best guess.`;
+Player hint: "${hint}"
+
+Instructions:
+- Choose the character that BEST matches the hint
+- Consider all characters in the database
+- Make your best guess based on the hint
+- Be logical but don't overthink it
+
+Respond with ONLY the character name, nothing else.`;
 
     const chatResponse = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7,
-      max_tokens: 1024,
+      temperature: 0.1, // Very focused responses
+      max_tokens: 50, // Short responses only
+      top_p: 0.5, // More deterministic
     });
 
     let guess = chatResponse.choices[0]?.message?.content?.trim();
 
-    // Find the target character (the one in the game)
-    const targetGameCharacter = game.gameCharacters.find(gc => !gc.guessed);
-    if (!targetGameCharacter) {
-      return NextResponse.json({ error: 'No target character found' }, { status: 400 });
+    if (!guess) {
+      return NextResponse.json({ error: 'AI response failed' }, { status: 500 });
     }
 
     // Check if the guess is correct
@@ -101,34 +114,39 @@ Consider all the hints together to make your guess. Guess which character it is.
       (normalizedGuess && c.name.toLowerCase().trim().includes(normalizedGuess))
     );
 
-    // If AI guessed a non-existent character, pick a random wrong character
+    // If AI guessed a non-existent character, pick a random character
     if (!guessedCharacter) {
-      const wrongCharacters = allCharactersFull.filter(c => c.id !== targetGameCharacter.characterId);
-      if (wrongCharacters.length > 0) {
-        guessedCharacter = wrongCharacters[Math.floor(Math.random() * wrongCharacters.length)];
+      if (allCharactersFull.length > 0) {
+        guessedCharacter = allCharactersFull[Math.floor(Math.random() * allCharactersFull.length)];
         guess = guessedCharacter.name; // Override the AI's invalid guess
       }
     }
 
-    // Mark the character as guessed (even if wrong, the attempt was made)
-    await prisma.gameCharacter.update({
-      where: { id: targetGameCharacter.id },
-      data: { guessed: true },
-    });
-
-    // Complete the game
-    await prisma.game.update({
-      where: { id: gameId },
-      data: { status: 'completed' },
-    });
-
-    // Add points only if correct
+    // Only update game state if AI actually made a guess (not "needs more hints")
     if (isCorrect) {
-      const points = targetGameCharacter.character.points;
-      await prisma.user.update({
-        where: { id: game.userId },
-        data: { score: { increment: points } },
+      // Mark the character as guessed
+      await prisma.gameCharacter.update({
+        where: { id: targetGameCharacter.id },
+        data: { guessed: true },
       });
+
+      // Check if all characters are guessed
+      const unguessedCount = await prisma.gameCharacter.count({
+        where: { gameId, guessed: false },
+      });
+
+      if (unguessedCount === 0) {
+        // Complete the game and award points
+        const totalPoints = game.theme.characters.reduce((sum, c) => sum + c.points, 0);
+        await prisma.game.update({
+          where: { id: gameId },
+          data: { status: 'completed' },
+        });
+        await prisma.user.update({
+          where: { id: game.userId },
+          data: { score: { increment: totalPoints } },
+        });
+      }
     }
 
     return NextResponse.json({
@@ -136,6 +154,7 @@ Consider all the hints together to make your guess. Guess which character it is.
       isCorrect,
       correctCharacter: targetGameCharacter.character.name,
       guessedCharacterImage: guessedCharacter?.imageUrl,
+      gameCompleted: isCorrect && await prisma.gameCharacter.count({ where: { gameId, guessed: false } }) === 0,
     });
   } catch (error) {
     console.error('Error in give-hint:', error);

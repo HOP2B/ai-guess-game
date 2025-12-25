@@ -37,6 +37,7 @@ export default function CharacterPage() {
         const response = await fetch(`/api/random-character?themeId=${themeId}`);
         if (!response.ok) throw new Error('Failed to fetch character');
         const data = await response.json();
+        console.log('Character data:', data.character); // Debug log
         setCharacter(data.character);
       } catch (error) {
         console.error('Failed to fetch character:', error);
@@ -107,7 +108,7 @@ export default function CharacterPage() {
       const data = await response.json();
 
       router.push(
-        `/ai-guessed?guess=${encodeURIComponent(data.guess)}&isCorrect=${
+        `/ai-guessed?guess=${encodeURIComponent(data.guess || '')}&isCorrect=${
           data.isCorrect
         }&character=${encodeURIComponent(
           data.correctCharacter || ''
@@ -205,15 +206,15 @@ export default function CharacterPage() {
             {inputs.map((text, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded px-4 py-2 max-w-md mx-auto animate-slide-in-left"
+                className="flex items-center justify-center gap-3 bg-gray-800/50 backdrop-blur-sm rounded px-4 py-3 max-w-md mx-auto animate-slide-in-left flex-wrap"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <span>{text}</span>
+                <span className="flex-1 text-center break-words">{text}</span>
                 <button
                   onClick={() =>
                     setInputs(inputs.filter((_, i) => i !== index))
                   }
-                  className="w-5 h-5 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center text-xs transition-colors duration-200"
+                  className="w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-200 flex-shrink-0"
                 >
                   ×
                 </button>
@@ -223,20 +224,20 @@ export default function CharacterPage() {
         </div>
       </div>
 
-      <div className="mt-auto flex justify-between animate-fade-in delay-500">
-        <Link href="/themes">
-          <button className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-4 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-lg">
-            Back
-          </button>
-        </Link>
-
+      <div className="mt-auto flex flex-col items-center gap-4 animate-fade-in delay-500 px-4">
         <button
           onClick={handleSubmitHints}
           disabled={submitting}
-          className="bg-white text-black hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold py-4 px-8 rounded-lg text-lg"
+          className="w-full max-w-xs bg-white text-black hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold py-5 px-8 rounded-lg text-lg min-h-[60px] touch-manipulation"
         >
           {submitting ? 'Submitting...' : 'Submit Hints'}
         </button>
+
+        <Link href="/themes" className="w-full max-w-xs">
+          <button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-5 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-lg min-h-[60px] touch-manipulation">
+            Back
+          </button>
+        </Link>
       </div>
     </div>
   );
