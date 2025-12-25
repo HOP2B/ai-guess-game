@@ -45,22 +45,25 @@ export default function AiGuessed() {
             <span className="text-red-400">Incorrect. The correct character was {correctCharacter}</span>
           )}
         </div>
-        <div className="flex items-center justify-center gap-4 mt-auto animate-fade-in delay-500">
-          <Link href="/">
-            <button className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-base">
-              Home
-            </button>
-          </Link>
-          <Link href="/themes">
-            <button className="bg-white text-black hover:bg-gray-200 font-semibold py-2 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white text-base">
+        <div className="flex flex-col items-center gap-4 mt-auto animate-fade-in delay-500 px-4">
+          <Link href="/themes" className="w-full max-w-xs">
+            <button className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-4 px-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white text-lg min-h-[56px] touch-manipulation">
               Play again
             </button>
           </Link>
-          <Link href="/leaderboard">
-            <button className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-base">
-              Leaderboard
-            </button>
-          </Link>
+
+          <div className="flex gap-4 w-full max-w-xs">
+            <Link href="/" className="flex-1">
+              <button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-4 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-base min-h-[56px] touch-manipulation">
+                Home
+              </button>
+            </Link>
+            <Link href="/leaderboard" className="flex-1">
+              <button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-4 px-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-base min-h-[56px] touch-manipulation">
+                Leaderboard
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
