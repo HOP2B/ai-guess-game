@@ -1,15 +1,21 @@
-'use client';
-
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
 
-export default function AiGuessed() {
-  const searchParams = useSearchParams();
-  const guess = searchParams.get('guess') || 'Unknown';
-  const isCorrect = searchParams.get('isCorrect') === 'true';
-  const correctCharacter = searchParams.get('character') || '';
-  const imageUrl = searchParams.get('imageUrl') || '';
+export default async function AiGuessed({
+  searchParams,
+}: {
+  searchParams?:
+    | Promise<{ [key: string]: string | string[] | undefined }>
+    | { [key: string]: string | string[] | undefined };
+}) {
+  const resolved = (await searchParams) || {};
+  const guess = (resolved.guess as string) || 'Unknown';
+  const isCorrect = (resolved.isCorrect as string) === 'true';
+  const correctCharacter = (resolved.character as string) || '';
+  const guessedImageUrl = (resolved.imageUrl as string) || '';
+  const correctImageUrl = (resolved.correctImage as string) || '';
+  // Show the correct character's image when available (so name + image match). If not available, fall back to the guessed image.
+  const displayImage = correctImageUrl || guessedImageUrl;
 
   return (
     <div className="flex flex-col min-h-screen text-center bg-black text-white pb-5 pt-5 relative overflow-hidden">
@@ -22,13 +28,14 @@ export default function AiGuessed() {
       <div className="relative z-10">
         <div className="text-lg mb-2 animate-fade-in">The AI identified this character</div>
         <div className="flex-grow flex items-center justify-center animate-scale-in">
-          {imageUrl ? (
+          {displayImage ? (
             <Image
-              src={imageUrl}
-              alt="Character"
+              src={displayImage}
+              alt={correctCharacter || guess}
               width={250}
               height={350}
               className="rounded-lg shadow-2xl border border-gray-700"
+              loading="eager"
               unoptimized
             />
           ) : (

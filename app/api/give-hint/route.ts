@@ -130,21 +130,22 @@ Respond with ONLY the character name, nothing else.`;
         data: { guessed: true },
       });
 
-      // Check if all characters are guessed
+      // Award the user the points for this character (avoid awarding the whole theme total)
+      const pointsForCharacter = targetGameCharacter.character.points || 0;
+      await prisma.user.update({
+        where: { id: game.userId },
+        data: { score: { increment: pointsForCharacter } },
+      });
+
+      // Check if all characters are guessed and mark the game completed if so
       const unguessedCount = await prisma.gameCharacter.count({
         where: { gameId, guessed: false },
       });
 
       if (unguessedCount === 0) {
-        // Complete the game and award points
-        const totalPoints = game.theme.characters.reduce((sum, c) => sum + c.points, 0);
         await prisma.game.update({
           where: { id: gameId },
           data: { status: 'completed' },
-        });
-        await prisma.user.update({
-          where: { id: game.userId },
-          data: { score: { increment: totalPoints } },
         });
       }
     }
@@ -153,6 +154,7 @@ Respond with ONLY the character name, nothing else.`;
       guess,
       isCorrect,
       correctCharacter: targetGameCharacter.character.name,
+      correctCharacterImage: targetGameCharacter.character.imageUrl,
       guessedCharacterImage: guessedCharacter?.imageUrl,
       gameCompleted: isCorrect && await prisma.gameCharacter.count({ where: { gameId, guessed: false } }) === 0,
     });
