@@ -11,7 +11,10 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ themes });
+    // Cache themes for a short while at the CDN to speed up pages that list themes
+    const res = NextResponse.json({ themes });
+    res.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+    return res;
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Failed to fetch themes' }, { status: 500 });

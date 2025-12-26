@@ -153,7 +153,6 @@ export default function CharacterClient({
             height={600}
             className="rounded-lg shadow-2xl mx-auto border border-gray-700"
             priority
-            unoptimized
           />
         </div>
 
