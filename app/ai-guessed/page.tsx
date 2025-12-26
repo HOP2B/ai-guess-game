@@ -28,19 +28,63 @@ export default async function AiGuessed({
       <div className="relative z-10">
         <div className="text-lg mb-2 animate-fade-in">The AI identified this character</div>
         <div className="flex-grow flex items-center justify-center animate-scale-in">
-          {displayImage ? (
-            <Image
-              src={displayImage}
-              alt={correctCharacter || guess}
-              width={250}
-              height={350}
-              className="rounded-lg shadow-2xl border border-gray-700"
-              loading="eager"
-              unoptimized
-            />
+          {isCorrect ? (
+            // If correct, show the single correct image
+            displayImage ? (
+              <Image
+                src={displayImage}
+                alt={correctCharacter || guess}
+                width={250}
+                height={350}
+                className="rounded-lg shadow-2xl border border-gray-700"
+                loading="eager"
+                priority
+              />
+            ) : (
+              <div className="w-64 h-96 bg-gray-800 rounded-lg shadow-2xl flex items-center justify-center border border-gray-600">
+                <span className="text-gray-400">No Image</span>
+              </div>
+            )
           ) : (
-            <div className="w-64 h-96 bg-gray-800 rounded-lg shadow-2xl flex items-center justify-center border border-gray-600">
-              <span className="text-gray-400">No Image</span>
+            // If incorrect, show both the AI's guessed image and the correct image side-by-side for clarity
+            <div className="flex gap-4 items-center justify-center">
+              <div className="flex flex-col items-center">
+                {guessedImageUrl ? (
+                  <Image
+                    src={guessedImageUrl}
+                    alt={`AI guess: ${guess}`}
+                    width={220}
+                    height={310}
+                    className="rounded-lg shadow-md border border-gray-700"
+                    loading="eager"
+                    priority
+                  />
+                ) : (
+                  <div className="w-48 h-72 bg-gray-800 rounded-lg shadow-md flex items-center justify-center border border-gray-600">
+                    <span className="text-gray-400">No Image</span>
+                  </div>
+                )}
+                <div className="mt-2 text-sm text-gray-300">AI's guess</div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                {correctImageUrl ? (
+                  <Image
+                    src={correctImageUrl}
+                    alt={`Correct: ${correctCharacter}`}
+                    width={220}
+                    height={310}
+                    className="rounded-lg shadow-md border border-green-500"
+                    loading="eager"
+                    priority
+                  />
+                ) : (
+                  <div className="w-48 h-72 bg-gray-800 rounded-lg shadow-md flex items-center justify-center border border-gray-600">
+                    <span className="text-gray-400">No Image</span>
+                  </div>
+                )}
+                <div className="mt-2 text-sm text-green-300">Correct character</div>
+              </div>
             </div>
           )}
         </div>
