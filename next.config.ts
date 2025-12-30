@@ -63,6 +63,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'sm.pcmag.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.olympics.com',
+      },
     ],
   },
 };
