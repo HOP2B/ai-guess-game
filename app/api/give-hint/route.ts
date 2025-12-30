@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Get all characters in the database for the AI to choose from
+    // But prioritize characters within the same theme for a narrower, more accurate prompt
+    const themeCharacterNames = game.theme.characters.map(c => c.name).join(', ');
     const allCharacters = await prisma.character.findMany({
       select: { name: true },
     });
@@ -70,20 +72,23 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Balanced AI prompt for character guessing
-    const prompt = `You are playing a character guessing game.
+  // Improved prompt: narrow to theme characters, add a short few-shot example to guide format
+  const prompt = `You are playing a character guessing game.
 
-Possible characters: ${allCharacterNames}
+Priority characters (most likely): ${themeCharacterNames}
+All possible characters: ${allCharacterNames}
 
 Player hint: "${hint}"
 
-Instructions:
-- Choose the character that BEST matches the hint
-- Consider all characters in the database
-- Make your best guess based on the hint
-- Be logical but don't overthink it
+Examples:
+- Hint: "Tall wizard with long beard" -> Gandalf
+- Hint: "Fast red hedgehog" -> Sonic
 
-Respond with ONLY the character name, nothing else.`;
+Instructions:
+- Choose the character that BEST matches the hint.
+- Prefer characters from the Priority list when appropriate.
+- Return only the exact character name as it appears in the character list.
+`;
 
     const chatResponse = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
@@ -93,7 +98,11 @@ Respond with ONLY the character name, nothing else.`;
       top_p: 0.5, // More deterministic
     });
 
-    let guess = chatResponse.choices[0]?.message?.content?.trim();
+    let rawGuess = chatResponse.choices[0]?.message?.content?.trim() || '';
+
+    // Sanitize the model output: remove quotes, extraneous punctuation, and trim
+    const sanitize = (s: string) => s.replace(/^"|"$/g, '').replace(/[\n\r]/g, ' ').trim();
+    let guess = sanitize(rawGuess);
 
     if (!guess) {
       return NextResponse.json({ error: 'AI response failed' }, { status: 500 });
@@ -114,11 +123,49 @@ Respond with ONLY the character name, nothing else.`;
       (normalizedGuess && c.name.toLowerCase().trim().includes(normalizedGuess))
     );
 
-    // If AI guessed a non-existent character, pick a random character
+    // Fallback: fuzzy match by token overlap and shortest Levenshtein distance
     if (!guessedCharacter) {
-      if (allCharactersFull.length > 0) {
+      const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim();
+      const guessTokens = new Set((normalize(guess) || '').split(/\s+/).filter(Boolean));
+
+      let best: { char?: typeof allCharactersFull[0]; score: number; dist: number } = { score: 0, dist: Infinity };
+
+      const levenshtein = (a: string, b: string) => {
+        const al = a.length, bl = b.length;
+        const dp = Array.from({ length: al + 1 }, () => new Array(bl + 1).fill(0));
+        for (let i = 0; i <= al; i++) dp[i][0] = i;
+        for (let j = 0; j <= bl; j++) dp[0][j] = j;
+        for (let i = 1; i <= al; i++) {
+          for (let j = 1; j <= bl; j++) {
+            dp[i][j] = Math.min(
+              dp[i - 1][j] + 1,
+              dp[i][j - 1] + 1,
+              dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+            );
+          }
+        }
+        return dp[al][bl];
+      };
+
+      for (const c of allCharactersFull) {
+        const n = normalize(c.name);
+        const tokens = new Set(n.split(/\s+/).filter(Boolean));
+        const overlap = Array.from(tokens).filter(t => guessTokens.has(t)).length;
+        const dist = levenshtein(n, normalize(guess));
+        // prefer higher token overlap, then lower distance
+        const score = overlap * 100 - dist;
+        if (score > best.score || (score === best.score && dist < best.dist)) {
+          best = { char: c, score, dist };
+        }
+      }
+
+      if (best.char) {
+        guessedCharacter = best.char;
+        guess = guessedCharacter.name;
+      } else if (allCharactersFull.length > 0) {
+        // final fallback: pick a random character
         guessedCharacter = allCharactersFull[Math.floor(Math.random() * allCharactersFull.length)];
-        guess = guessedCharacter.name; // Override the AI's invalid guess
+        guess = guessedCharacter.name;
       }
     }
 
