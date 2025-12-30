@@ -213,7 +213,7 @@ export default function CharacterClient({
       <div className="mt-auto flex flex-col items-center gap-4 animate-fade-in delay-500 px-4">
         <button
           onClick={handleSubmitHints}
-          disabled={submitting}
+          disabled={submitting || inputs.length === 0}
           className="w-full max-w-xs bg-white text-black hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold py-5 px-8 rounded-lg text-lg min-h-[60px] touch-manipulation"
         >
           {submitting ? 'Submitting...' : 'Submit Hints'}
