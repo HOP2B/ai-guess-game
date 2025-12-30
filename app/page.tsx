@@ -95,13 +95,13 @@ export default function Home() {
               </div>
             </div>
           </Link>
-          <Link href="/admin">
+          {/* <Link href="/admin">
             <div className="bg-gray-800 backdrop-blur-lg rounded-full p-4 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110 min-w-[120px] min-h-[60px] flex items-center justify-center touch-manipulation">
               <div className="text-white text-base font-semibold text-center">
                 Admin
               </div>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
