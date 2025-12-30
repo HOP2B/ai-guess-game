@@ -1,7 +1,5 @@
-// 'use client';
-
-// import { useState, useEffect } from 'react';
-// import Link from 'next/link';
+import Link from 'next/link';
+import React from 'react';
 
 // interface Theme {
 //   id: number;
@@ -20,8 +18,22 @@
 //   forbiddenWords: { word: string }[];
 // }
 
-// export default function Admin() {
-//   const [themes, setThemes] = useState<Theme[]>([]);
+export default function Admin() {
+	// Minimal admin page while the full admin UI is being loaded/implemented.
+	// This resolves a build issue where the file was entirely commented out and
+	// therefore not treated as a module by Next.js during deployment.
+	return (
+		<div className="min-h-screen bg-black text-white flex items-center justify-center">
+			<div className="text-center">
+				<h1 className="text-4xl font-bold mb-4">Admin</h1>
+				<p className="text-gray-300 mb-6">Admin panel is temporarily disabled in this deployment.</p>
+				<Link href="/">
+					<button className="bg-white text-black px-4 py-2 rounded">Back to Home</button>
+				</Link>
+			</div>
+		</div>
+	);
+}
 //   const [characters, setCharacters] = useState<Character[]>([]);
 //   const [selectedTheme, setSelectedTheme] = useState<number | null>(null);
 //   const [loading, setLoading] = useState(true);
