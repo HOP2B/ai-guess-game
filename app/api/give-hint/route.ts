@@ -50,9 +50,9 @@ export async function POST(request: NextRequest) {
     });
     const allCharacterNames = allCharacters.map(c => c.name).join(', ');
 
-    // Check forbidden words for all characters in the theme
+    // Check forbidden words for the target character
     const forbiddenWords = await prisma.forbiddenWord.findMany({
-      where: { characterId: { in: game.theme.characters.map(c => c.id) } },
+      where: { characterId: targetGameCharacter.character.id },
       select: { word: true },
     });
 

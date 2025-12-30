@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import CharacterImage from '../components/CharacterImage';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -75,12 +76,9 @@ export default function Themes() {
                   className={`w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-16 px-20 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white text-5xl cursor-pointer relative overflow-hidden h-80 animate-scale-in`}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <img
-                    src={theme.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'}
-                    alt={theme.name}
-                    className="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 hover:opacity-80"
-                    onError={(e) => { console.log('Image failed to load:', theme.imageUrl); e.currentTarget.style.display = 'none'; }}
-                  />
+                  <div className="absolute inset-0 transition-opacity duration-300 hover:opacity-80">
+                    <CharacterImage src={theme.imageUrl || null} alt={theme.name} size="medium" aspect="4/3" className="h-full" />
+                  </div>
                   <div className="absolute bottom-2 left-2 right-2 bg-black/70 backdrop-blur-sm rounded px-3 py-2">
                     <span className="text-white text-lg font-medium">{theme.name}</span>
                     <span className="text-gray-300 text-sm block">({theme._count.characters} characters)</span>
