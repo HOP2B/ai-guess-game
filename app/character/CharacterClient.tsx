@@ -1,6 +1,6 @@
 "use client";
 
-import Image from 'next/image';
+import CharacterImage from '../components/CharacterImage';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -146,14 +146,10 @@ export default function CharacterClient({
         <h1 className="text-4xl font-bold mb-8 animate-fade-in">Guess this character!</h1>
 
         <div className="animate-scale-in">
-          <Image
-            src={character.imageUrl}
-            alt={character.name}
-            width={400}
-            height={600}
-            className="rounded-lg shadow-2xl mx-auto border border-gray-700"
-            priority
-          />
+          {/* Use shared CharacterImage component for consistent, larger, responsive sizing */}
+          <div className="mx-auto">
+            <CharacterImage src={character.imageUrl} alt={character.name} size="medium" />
+          </div>
         </div>
 
         {/* Show the character name (useful for debugging / QA) */}
@@ -175,20 +171,28 @@ export default function CharacterClient({
             ))}
           </div>
 
-          <input
-            type="text"
-            placeholder="Describe the character..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && inputs.length < 3 && inputValue.trim()) {
-                setInputs([...inputs, inputValue.trim()]);
-                setInputValue('');
-              }
-            }}
-            disabled={inputs.length >= 3}
-            className="bg-gray-800 border border-gray-600 text-white placeholder-gray-400 px-4 py-2 rounded w-full max-w-md mx-auto block focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
-          />
+          <div className="flex gap-2 max-w-md mx-auto">
+            <input
+              type="text"
+              placeholder="Describe the character..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              disabled={inputs.length >= 3}
+              className="bg-gray-800 border border-gray-600 text-white placeholder-gray-400 px-4 py-2 rounded flex-1 focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
+            />
+            <button
+              onClick={() => {
+                if (inputs.length < 3 && inputValue.trim()) {
+                  setInputs([...inputs, inputValue.trim()]);
+                  setInputValue('');
+                }
+              }}
+              disabled={inputs.length >= 3 || !inputValue.trim()}
+              className="bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded whitespace-nowrap"
+            >
+              Add Hint
+            </button>
+          </div>
 
           <div className="mt-4 space-y-2">
             {inputs.map((text, index) => (
