@@ -143,7 +143,7 @@ export default function CharacterClient({
       </div>
 
       <div className="relative z-10 text-center">
-        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Guess this character!</h1>
+        <h1 className="text-4xl font-bold mb-8 animate-fade-in">Provide hints about this character!</h1>
 
         <div className="animate-scale-in">
           {/* Use shared CharacterImage component for consistent, larger, responsive sizing */}
