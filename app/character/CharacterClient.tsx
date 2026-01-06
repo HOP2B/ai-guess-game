@@ -237,6 +237,12 @@ export default function CharacterClient({
             Back
           </button>
         </Link>
+
+        <Link href="/how-to-play" className="w-full max-w-xs">
+          <button className="w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-5 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-600 text-lg min-h-[60px] touch-manipulation">
+            How to Play
+          </button>
+        </Link>
       </div>
     </div>
   );
