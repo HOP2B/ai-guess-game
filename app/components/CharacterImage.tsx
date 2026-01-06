@@ -32,7 +32,7 @@ export default function CharacterImage({
         alt={alt || 'image'}
         fill
         sizes="(max-width: 640px) 90vw, 640px"
-        className="rounded-lg shadow-2xl border border-gray-700 object-cover"
+        className="rounded-lg shadow-2xl border border-gray-700 object-contain"
         loading="eager"
         priority
       />
