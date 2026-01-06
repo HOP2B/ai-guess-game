@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function HowToPlay() {
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+    <div className="min-h-screen bg-gradient-to-r from-blue-300 to-purple-700 text-white p-6">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">How to Play AI Guess Game</h1>
 

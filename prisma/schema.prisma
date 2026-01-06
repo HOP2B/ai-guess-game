@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../app/generated"
@@ -35,27 +29,27 @@ model Character {
   points         Int             @default(10)
   themeId        Int
   theme          Theme           @relation(fields: [themeId], references: [id])
-  gameCharacters GameCharacter[]
   forbiddenWords ForbiddenWord[]
+  gameCharacters GameCharacter[]
 }
 
 model Game {
   id             Int             @id @default(autoincrement())
-  userId         Int
-  user           User            @relation(fields: [userId], references: [id])
-  themeId        Int
-  theme          Theme           @relation(fields: [themeId], references: [id])
   status         String
+  themeId        Int
+  userId         Int
+  theme          Theme           @relation(fields: [themeId], references: [id])
+  user           User            @relation(fields: [userId], references: [id])
   gameCharacters GameCharacter[]
 }
 
 model GameCharacter {
   id          Int       @id @default(autoincrement())
   gameId      Int
-  game        Game      @relation(fields: [gameId], references: [id])
   characterId Int
-  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
   guessed     Boolean   @default(false)
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  game        Game      @relation(fields: [gameId], references: [id])
 
   @@unique([gameId, characterId])
 }
