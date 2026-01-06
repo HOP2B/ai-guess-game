@@ -78,6 +78,17 @@ export default function CharacterClient({
   const handleSubmitHints = async () => {
     if (!character || submitting) return;
 
+    // Check for forbidden words
+    const hint = inputs.length > 0 ? inputs.join('. ') : 'No hints provided';
+    const forbiddenWords = character.forbiddenWords.map(fw => fw.word.toLowerCase());
+    const hintLower = hint.toLowerCase();
+    const containsForbidden = forbiddenWords.some(word => hintLower.includes(word));
+
+    if (containsForbidden) {
+      alert('You used forbidden words. Please try again.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -86,8 +97,6 @@ export default function CharacterClient({
         currentGameId = await createGame(character.id);
         if (!currentGameId) throw new Error('Game creation failed');
       }
-
-      const hint = inputs.length > 0 ? inputs.join('. ') : 'No hints provided';
 
       const response = await fetch('/api/give-hint', {
         method: 'POST',
