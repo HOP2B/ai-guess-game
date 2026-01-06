@@ -157,7 +157,7 @@ export default function CharacterClient({
         <div className="animate-scale-in">
           {/* Use shared CharacterImage component for consistent, larger, responsive sizing */}
           <div className="mx-auto">
-            <CharacterImage src={character.imageUrl} alt={character.name} size="medium" />
+            <CharacterImage src={character.imageUrl} alt={character.name} size="medium" aspect="1/1" />
           </div>
         </div>
 
