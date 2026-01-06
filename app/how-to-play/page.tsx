@@ -2,12 +2,20 @@ import Link from 'next/link';
 
 export default function HowToPlay() {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-300 to-purple-700 text-white p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">How to Play AI Guess Game</h1>
+    <div className="min-h-screen bg-black flex flex-col p-4 relative overflow-hidden text-white">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gray-400 rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-gray-600 rounded-full animate-pulse delay-500"></div>
+        <div className="absolute bottom-20 right-10 w-16 h-16 bg-gray-500 rounded-full animate-pulse delay-1500"></div>
+      </div>
 
-        <div className="space-y-6 text-lg leading-relaxed">
-          <section>
+      <div className="relative z-10 max-w-4xl mx-auto p-6">
+        <h1 className="text-4xl font-bold text-center mb-8 animate-fade-in">How to Play AI Guess Game</h1>
+
+        <div className="space-y-6 text-lg leading-relaxed animate-slide-up">
+          <section className="animate-fade-in">
             <h2 className="text-2xl font-semibold mb-4">Objective</h2>
             <p>
               The goal of AI Guess Game is to provide hints to an AI so it can correctly guess the character you're thinking of.
@@ -15,7 +23,7 @@ export default function HowToPlay() {
             </p>
           </section>
 
-          <section>
+          <section className="animate-fade-in delay-100">
             <h2 className="text-2xl font-semibold mb-4">Getting Started</h2>
             <ol className="list-decimal list-inside space-y-2">
               <li>Enter your username on the home page</li>
@@ -25,7 +33,7 @@ export default function HowToPlay() {
             </ol>
           </section>
 
-          <section>
+          <section className="animate-fade-in delay-200">
             <h2 className="text-2xl font-semibold mb-4">Creating Hints</h2>
             <ul className="list-disc list-inside space-y-2">
               <li>Look at the character image and read the forbidden words</li>
@@ -37,7 +45,7 @@ export default function HowToPlay() {
             </ul>
           </section>
 
-          <section>
+          <section className="animate-fade-in delay-300">
             <h2 className="text-2xl font-semibold mb-4">Submitting Hints</h2>
             <p>
               Once you've added your hints, click "Submit Hints". The AI will analyze your hints and try to guess the character.
@@ -45,7 +53,7 @@ export default function HowToPlay() {
             </p>
           </section>
 
-          <section>
+          <section className="animate-fade-in delay-400">
             <h2 className="text-2xl font-semibold mb-4">Scoring</h2>
             <p>
               You earn points for each character the AI guesses correctly. The more characters you help the AI guess in a theme,
@@ -53,7 +61,7 @@ export default function HowToPlay() {
             </p>
           </section>
 
-          <section>
+          <section className="animate-fade-in delay-500">
             <h2 className="text-2xl font-semibold mb-4">Tips for Success</h2>
             <ul className="list-disc list-inside space-y-2">
               <li>Use creative descriptions that don't include the forbidden words</li>
@@ -64,9 +72,9 @@ export default function HowToPlay() {
           </section>
         </div>
 
-        <div className="text-center mt-12">
-          <Link href="/">
-            <button className="bg-white text-black font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition-colors">
+        <div className="mt-auto flex flex-col items-center gap-4 animate-fade-in delay-500 px-4">
+          <Link href="/" className="w-full max-w-xs">
+            <button className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-5 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black text-lg min-h-[60px] touch-manipulation">
               Back to Home
             </button>
           </Link>
