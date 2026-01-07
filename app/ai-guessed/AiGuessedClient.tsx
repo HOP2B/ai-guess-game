@@ -1,38 +1,43 @@
+"use client";
+
 import Link from "next/link";
-import AiGuessedClient from "./AiGuessedClient";
+import CharacterImage from "../components/CharacterImage";
+import { useSound } from "../hooks/useSound";
+import { useEffect } from "react";
 
-export default async function AiGuessed({
-  searchParams,
-}: {
-  searchParams?:
-    | Promise<{ [key: string]: string | string[] | undefined }>
-    | { [key: string]: string | string[] | undefined };
-}) {
-  const resolved = (await searchParams) || {};
-  const guess = (resolved.guess as string) || 'Unknown';
-  const isCorrect = (resolved.isCorrect as string) === 'true';
-  const correctCharacter = (resolved.character as string) || '';
-  const guessedImageUrl = (resolved.imageUrl as string) || '';
-  const correctImageUrl = (resolved.correctImage as string) || '';
-  // Show the correct character's image when available (so name + image match). If not available, fall back to the guessed image.
-  const displayImage = correctImageUrl || guessedImageUrl;
-
-  return <AiGuessedClient
-    guess={guess}
-    isCorrect={isCorrect}
-    correctCharacter={correctCharacter}
-    guessedImageUrl={guessedImageUrl}
-    correctImageUrl={correctImageUrl}
-    displayImage={displayImage}
-  />;
+interface AiGuessedClientProps {
+  guess: string;
+  isCorrect: boolean;
+  correctCharacter: string;
+  guessedImageUrl: string;
+  correctImageUrl: string;
+  displayImage: string;
 }
+
+export default function AiGuessedClient({
+  guess,
+  isCorrect,
+  correctCharacter,
+  guessedImageUrl,
+  correctImageUrl,
+  displayImage,
+}: AiGuessedClientProps) {
+  const { playGuess, playGuessWrong } = useSound();
+
+  useEffect(() => {
+    if (isCorrect) {
+      playGuess();
+    } else {
+      playGuessWrong();
+    }
+  }, [isCorrect, playGuess, playGuessWrong]);
 
   return (
     <div className="flex flex-col min-h-screen text-center bg-black text-white pb-5 pt-5 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-24 h-24 bg-gray-400 rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute top-10 right-10 w-32 h-32 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-24 h-24 bg-gray-400 rounded-full animate-pulse delay-1000"></div>
       </div>
 
       <div className="relative z-10">
