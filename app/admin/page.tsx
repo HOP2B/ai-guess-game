@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { useSound } from '../hooks/useSound';
 
 interface Theme {
   id: number;
@@ -21,12 +22,13 @@ interface Character {
 }
 
 export default function Admin() {
-  const [themes, setThemes] = useState<Theme[]>([]);
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [selectedTheme, setSelectedTheme] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [expandedThemes, setExpandedThemes] = useState<Set<number>>(new Set());
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+   const [themes, setThemes] = useState<Theme[]>([]);
+   const [characters, setCharacters] = useState<Character[]>([]);
+   const [selectedTheme, setSelectedTheme] = useState<number | null>(null);
+   const [loading, setLoading] = useState(true);
+   const [expandedThemes, setExpandedThemes] = useState<Set<number>>(new Set());
+   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+   const { playSuccess } = useSound();
 
   // Form states
   const [newThemeName, setNewThemeName] = useState('');
@@ -93,6 +95,7 @@ export default function Admin() {
 
       if (response.ok) {
         showToast(`Theme "${newThemeName}" created successfully!`);
+        playSuccess();
         fetchData();
       } else {
         showToast('Failed to create theme', 'error');
@@ -118,6 +121,7 @@ export default function Admin() {
 
       if (response.ok) {
         showToast(`Character "${newCharacterName}" created successfully!`);
+        playSuccess();
         fetchData();
       } else {
         showToast('Failed to create character', 'error');
@@ -154,6 +158,7 @@ export default function Admin() {
 
       if (successCount > 0) {
         showToast(`${successCount} forbidden word${successCount > 1 ? 's' : ''} added successfully!`);
+        playSuccess();
         if (successCount === words.length) {
           setNewForbiddenWords('');
         }

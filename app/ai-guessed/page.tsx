@@ -1,21 +1,30 @@
+"use client";
+
 import Link from "next/link";
 import CharacterImage from "../components/CharacterImage";
+import { useSound } from "../hooks/useSound";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-export default async function AiGuessed({
-  searchParams,
-}: {
-  searchParams?:
-    | Promise<{ [key: string]: string | string[] | undefined }>
-    | { [key: string]: string | string[] | undefined };
-}) {
-  const resolved = (await searchParams) || {};
-  const guess = (resolved.guess as string) || 'Unknown';
-  const isCorrect = (resolved.isCorrect as string) === 'true';
-  const correctCharacter = (resolved.character as string) || '';
-  const guessedImageUrl = (resolved.imageUrl as string) || '';
-  const correctImageUrl = (resolved.correctImage as string) || '';
+export default function AiGuessed() {
+  const searchParams = useSearchParams();
+  const guess = searchParams.get('guess') || 'Unknown';
+  const isCorrect = searchParams.get('isCorrect') === 'true';
+  const correctCharacter = searchParams.get('character') || '';
+  const guessedImageUrl = searchParams.get('imageUrl') || '';
+  const correctImageUrl = searchParams.get('correctImage') || '';
   // Show the correct character's image when available (so name + image match). If not available, fall back to the guessed image.
   const displayImage = correctImageUrl || guessedImageUrl;
+
+  const { playGuess, playGuessWrong } = useSound();
+
+  useEffect(() => {
+    if (isCorrect) {
+      playGuess();
+    } else {
+      playGuessWrong();
+    }
+  }, [isCorrect, playGuess, playGuessWrong]);
 
   return (
     <div className="flex flex-col min-h-screen text-center bg-black text-white pb-5 pt-5 relative overflow-hidden">
