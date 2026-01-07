@@ -4,6 +4,7 @@ import CharacterImage from '../components/CharacterImage';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSound } from '../hooks/useSound';
 
 interface Character {
   id: number;
@@ -29,6 +30,7 @@ export default function CharacterClient({
 
   const hasFetched = useRef(false);
   const router = useRouter();
+  const { playClick, playSuccess, playError } = useSound();
 
   useEffect(() => {
     if (!themeId || hasFetched.current) return;
@@ -85,6 +87,7 @@ export default function CharacterClient({
     const containsForbidden = forbiddenWords.some(word => hintLower.includes(word));
 
     if (containsForbidden) {
+      playError();
       alert('You used forbidden words. Please try again.');
       return;
     }
@@ -120,6 +123,7 @@ export default function CharacterClient({
       );
     } catch (error) {
       console.error('Submit failed:', error);
+      playError();
       alert('Something went wrong. Please try again.');
       setSubmitting(false);
     }
@@ -191,6 +195,7 @@ export default function CharacterClient({
             />
             <button
               onClick={() => {
+                playClick();
                 if (inputs.length < 3 && inputValue.trim()) {
                   setInputs([...inputs, inputValue.trim()]);
                   setInputValue('');
@@ -225,14 +230,17 @@ export default function CharacterClient({
 
       <div className="mt-auto flex flex-col items-center gap-4 animate-fade-in delay-500 px-4">
         <button
-          onClick={handleSubmitHints}
+          onClick={() => {
+            playClick();
+            handleSubmitHints();
+          }}
           disabled={submitting || inputs.length === 0}
           className="w-full max-w-xs bg-white text-black hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold py-5 px-8 rounded-lg text-lg min-h-[60px] touch-manipulation"
         >
           {submitting ? 'Submitting...' : 'Submit Hints'}
         </button>
 
-        <Link href="/themes" className="w-full max-w-xs">
+        <Link href="/themes" onClick={playClick} className="w-full max-w-xs">
           <button className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-5 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 text-lg min-h-[60px] touch-manipulation">
             Back
           </button>

@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
+import { useSound } from '../hooks/useSound';
 
 export default function HowToPlay() {
   const router = useRouter();
+  const { playClick } = useSound();
   return (
     <div className="min-h-screen bg-black flex flex-col p-4 relative overflow-hidden text-white">
       {/* Animated background elements */}
@@ -77,7 +79,10 @@ export default function HowToPlay() {
 
         <div className="mt-auto flex flex-col items-center gap-4 animate-fade-in delay-500 px-4">
           <button
-            onClick={() => router.back()}
+            onClick={() => {
+              playClick();
+              router.back();
+            }}
             className="w-full max-w-xs bg-white text-black hover:bg-gray-200 font-semibold py-5 px-8 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black text-lg min-h-[60px] touch-manipulation"
           >
             Back to Game

@@ -3,10 +3,24 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSound } from './hooks/useSound';
 
 export default function Home() {
-  const [username, setUsername] = useState('');
-  const router = useRouter();
+   const [username, setUsername] = useState('');
+   const [soundsEnabled, setSoundsEnabled] = useState(true);
+   const router = useRouter();
+   const { playClick } = useSound();
+
+   useEffect(() => {
+     const stored = localStorage.getItem('soundsEnabled');
+     setSoundsEnabled(stored !== 'false');
+   }, []);
+
+   const toggleSounds = () => {
+     const newValue = !soundsEnabled;
+     setSoundsEnabled(newValue);
+     localStorage.setItem('soundsEnabled', newValue.toString());
+   };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,6 +37,7 @@ export default function Home() {
   };
 
   const handlePlay = async () => {
+    playClick();
     if (!username.trim()) return;
 
     try {
@@ -88,14 +103,22 @@ export default function Home() {
         </div>
 
         <div className="absolute bottom-4 right-4 flex flex-col gap-3 animate-fade-in delay-500">
-          <Link href="/leaderboard">
+          <Link href="/leaderboard" onClick={playClick}>
             <div className="bg-gray-800 backdrop-blur-lg rounded-full p-4 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110 min-w-[120px] min-h-[60px] flex items-center justify-center touch-manipulation">
               <div className="text-white text-base font-semibold text-center">
                 Leaderboard
               </div>
             </div>
           </Link>
-          {/* <Link href="/admin">
+          <div
+            onClick={toggleSounds}
+            className="bg-gray-800 backdrop-blur-lg rounded-full p-4 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110 min-w-[120px] min-h-[60px] flex items-center justify-center touch-manipulation"
+          >
+            <div className="text-white text-base font-semibold text-center">
+              Sound {soundsEnabled ? 'On' : 'Off'}
+            </div>
+          </div>
+          {/* <Link href="/admin" onClick={playClick}>
             <div className="bg-gray-800 backdrop-blur-lg rounded-full p-4 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-700 transition-all duration-300 hover:scale-110 min-w-[120px] min-h-[60px] flex items-center justify-center touch-manipulation">
               <div className="text-white text-base font-semibold text-center">
                 Admin
