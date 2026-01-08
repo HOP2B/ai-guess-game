@@ -216,8 +216,8 @@ export type GameCharacterWhereInput = {
   gameId?: Prisma.IntFilter<"GameCharacter"> | number
   characterId?: Prisma.IntFilter<"GameCharacter"> | number
   guessed?: Prisma.BoolFilter<"GameCharacter"> | boolean
-  game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
   character?: Prisma.XOR<Prisma.CharacterScalarRelationFilter, Prisma.CharacterWhereInput>
+  game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
 }
 
 export type GameCharacterOrderByWithRelationInput = {
@@ -225,8 +225,8 @@ export type GameCharacterOrderByWithRelationInput = {
   gameId?: Prisma.SortOrder
   characterId?: Prisma.SortOrder
   guessed?: Prisma.SortOrder
-  game?: Prisma.GameOrderByWithRelationInput
   character?: Prisma.CharacterOrderByWithRelationInput
+  game?: Prisma.GameOrderByWithRelationInput
 }
 
 export type GameCharacterWhereUniqueInput = Prisma.AtLeast<{
@@ -238,8 +238,8 @@ export type GameCharacterWhereUniqueInput = Prisma.AtLeast<{
   gameId?: Prisma.IntFilter<"GameCharacter"> | number
   characterId?: Prisma.IntFilter<"GameCharacter"> | number
   guessed?: Prisma.BoolFilter<"GameCharacter"> | boolean
-  game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
   character?: Prisma.XOR<Prisma.CharacterScalarRelationFilter, Prisma.CharacterWhereInput>
+  game?: Prisma.XOR<Prisma.GameScalarRelationFilter, Prisma.GameWhereInput>
 }, "id" | "gameId_characterId">
 
 export type GameCharacterOrderByWithAggregationInput = {
@@ -266,8 +266,8 @@ export type GameCharacterScalarWhereWithAggregatesInput = {
 
 export type GameCharacterCreateInput = {
   guessed?: boolean
-  game: Prisma.GameCreateNestedOneWithoutGameCharactersInput
   character: Prisma.CharacterCreateNestedOneWithoutGameCharactersInput
+  game: Prisma.GameCreateNestedOneWithoutGameCharactersInput
 }
 
 export type GameCharacterUncheckedCreateInput = {
@@ -279,8 +279,8 @@ export type GameCharacterUncheckedCreateInput = {
 
 export type GameCharacterUpdateInput = {
   guessed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  game?: Prisma.GameUpdateOneRequiredWithoutGameCharactersNestedInput
   character?: Prisma.CharacterUpdateOneRequiredWithoutGameCharactersNestedInput
+  game?: Prisma.GameUpdateOneRequiredWithoutGameCharactersNestedInput
 }
 
 export type GameCharacterUncheckedUpdateInput = {
@@ -581,8 +581,8 @@ export type GameCharacterSelect<ExtArgs extends runtime.Types.Extensions.Interna
   gameId?: boolean
   characterId?: boolean
   guessed?: boolean
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gameCharacter"]>
 
 export type GameCharacterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -590,8 +590,8 @@ export type GameCharacterSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   gameId?: boolean
   characterId?: boolean
   guessed?: boolean
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gameCharacter"]>
 
 export type GameCharacterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -599,8 +599,8 @@ export type GameCharacterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   gameId?: boolean
   characterId?: boolean
   guessed?: boolean
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gameCharacter"]>
 
 export type GameCharacterSelectScalar = {
@@ -612,23 +612,23 @@ export type GameCharacterSelectScalar = {
 
 export type GameCharacterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gameId" | "characterId" | "guessed", ExtArgs["result"]["gameCharacter"]>
 export type GameCharacterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }
 export type GameCharacterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }
 export type GameCharacterIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
   character?: boolean | Prisma.CharacterDefaultArgs<ExtArgs>
+  game?: boolean | Prisma.GameDefaultArgs<ExtArgs>
 }
 
 export type $GameCharacterPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GameCharacter"
   objects: {
-    game: Prisma.$GamePayload<ExtArgs>
     character: Prisma.$CharacterPayload<ExtArgs>
+    game: Prisma.$GamePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1029,8 +1029,8 @@ readonly fields: GameCharacterFieldRefs;
  */
 export interface Prisma__GameCharacterClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  game<T extends Prisma.GameDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameDefaultArgs<ExtArgs>>): Prisma.Prisma__GameClient<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   character<T extends Prisma.CharacterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CharacterDefaultArgs<ExtArgs>>): Prisma.Prisma__CharacterClient<runtime.Types.Result.GetResult<Prisma.$CharacterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  game<T extends Prisma.GameDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameDefaultArgs<ExtArgs>>): Prisma.Prisma__GameClient<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

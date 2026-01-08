@@ -25,12 +25,18 @@ export default function CharacterClient({
   const [submitting, setSubmitting] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [inputs, setInputs] = useState<string[]>([]);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const gameId = initialGameId ? parseInt(initialGameId) : null;
 
   const hasFetched = useRef(false);
   const router = useRouter();
   const { playClick, playSuccess, playError } = useSound();
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   useEffect(() => {
     if (!themeId || hasFetched.current) return;
@@ -80,17 +86,7 @@ export default function CharacterClient({
   const handleSubmitHints = async () => {
     if (!character || submitting) return;
 
-    // Check for forbidden words
     const hint = inputs.length > 0 ? inputs.join('. ') : 'No hints provided';
-    const forbiddenWords = character.forbiddenWords.map(fw => fw.word.toLowerCase());
-    const hintLower = hint.toLowerCase();
-    const containsForbidden = forbiddenWords.some(word => hintLower.includes(word));
-
-    if (containsForbidden) {
-      playError();
-      alert('You used forbidden words. Please try again.');
-      return;
-    }
 
     setSubmitting(true);
 
@@ -195,9 +191,19 @@ export default function CharacterClient({
             />
             <button
               onClick={() => {
-                playClick();
                 if (inputs.length < 3 && inputValue.trim()) {
-                  setInputs([...inputs, inputValue.trim()]);
+                  const trimmedValue = inputValue.trim();
+                  const forbiddenWords = character.forbiddenWords.map(fw => fw.word.toLowerCase());
+                  const hintLower = trimmedValue.toLowerCase();
+                  const containsForbidden = forbiddenWords.some(word => hintLower.includes(word));
+
+                  if (containsForbidden) {
+                    playError();
+                    showToast('You used forbidden words. Please try again.');
+                    return;
+                  }
+
+                  setInputs([...inputs, trimmedValue]);
                   setInputValue('');
                 }
               }}
@@ -252,6 +258,12 @@ export default function CharacterClient({
           </button>
         </Link>
       </div>
+
+      {toastMessage && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded shadow-lg z-50 animate-fade-in">
+          {toastMessage}
+        </div>
+      )}
     </div>
   );
 }

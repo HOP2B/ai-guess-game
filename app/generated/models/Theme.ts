@@ -202,6 +202,7 @@ export type ThemeWhereInput = {
   imageUrl?: Prisma.StringNullableFilter<"Theme"> | string | null
   characters?: Prisma.CharacterListRelationFilter
   games?: Prisma.GameListRelationFilter
+  users?: Prisma.UserListRelationFilter
 }
 
 export type ThemeOrderByWithRelationInput = {
@@ -210,6 +211,7 @@ export type ThemeOrderByWithRelationInput = {
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   characters?: Prisma.CharacterOrderByRelationAggregateInput
   games?: Prisma.GameOrderByRelationAggregateInput
+  users?: Prisma.UserOrderByRelationAggregateInput
 }
 
 export type ThemeWhereUniqueInput = Prisma.AtLeast<{
@@ -221,6 +223,7 @@ export type ThemeWhereUniqueInput = Prisma.AtLeast<{
   imageUrl?: Prisma.StringNullableFilter<"Theme"> | string | null
   characters?: Prisma.CharacterListRelationFilter
   games?: Prisma.GameListRelationFilter
+  users?: Prisma.UserListRelationFilter
 }, "id" | "name">
 
 export type ThemeOrderByWithAggregationInput = {
@@ -248,6 +251,7 @@ export type ThemeCreateInput = {
   imageUrl?: string | null
   characters?: Prisma.CharacterCreateNestedManyWithoutThemeInput
   games?: Prisma.GameCreateNestedManyWithoutThemeInput
+  users?: Prisma.UserCreateNestedManyWithoutFavoriteThemeInput
 }
 
 export type ThemeUncheckedCreateInput = {
@@ -256,6 +260,7 @@ export type ThemeUncheckedCreateInput = {
   imageUrl?: string | null
   characters?: Prisma.CharacterUncheckedCreateNestedManyWithoutThemeInput
   games?: Prisma.GameUncheckedCreateNestedManyWithoutThemeInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteThemeInput
 }
 
 export type ThemeUpdateInput = {
@@ -263,6 +268,7 @@ export type ThemeUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUpdateManyWithoutThemeNestedInput
   games?: Prisma.GameUpdateManyWithoutThemeNestedInput
+  users?: Prisma.UserUpdateManyWithoutFavoriteThemeNestedInput
 }
 
 export type ThemeUncheckedUpdateInput = {
@@ -271,6 +277,7 @@ export type ThemeUncheckedUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUncheckedUpdateManyWithoutThemeNestedInput
   games?: Prisma.GameUncheckedUpdateManyWithoutThemeNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteThemeNestedInput
 }
 
 export type ThemeCreateManyInput = {
@@ -288,6 +295,11 @@ export type ThemeUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ThemeNullableScalarRelationFilter = {
+  is?: Prisma.ThemeWhereInput | null
+  isNot?: Prisma.ThemeWhereInput | null
 }
 
 export type ThemeCountOrderByAggregateInput = {
@@ -319,6 +331,22 @@ export type ThemeSumOrderByAggregateInput = {
 export type ThemeScalarRelationFilter = {
   is?: Prisma.ThemeWhereInput
   isNot?: Prisma.ThemeWhereInput
+}
+
+export type ThemeCreateNestedOneWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.ThemeCreateWithoutUsersInput, Prisma.ThemeUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.ThemeCreateOrConnectWithoutUsersInput
+  connect?: Prisma.ThemeWhereUniqueInput
+}
+
+export type ThemeUpdateOneWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.ThemeCreateWithoutUsersInput, Prisma.ThemeUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.ThemeCreateOrConnectWithoutUsersInput
+  upsert?: Prisma.ThemeUpsertWithoutUsersInput
+  disconnect?: Prisma.ThemeWhereInput | boolean
+  delete?: Prisma.ThemeWhereInput | boolean
+  connect?: Prisma.ThemeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ThemeUpdateToOneWithWhereWithoutUsersInput, Prisma.ThemeUpdateWithoutUsersInput>, Prisma.ThemeUncheckedUpdateWithoutUsersInput>
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -353,10 +381,57 @@ export type ThemeUpdateOneRequiredWithoutGamesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ThemeUpdateToOneWithWhereWithoutGamesInput, Prisma.ThemeUpdateWithoutGamesInput>, Prisma.ThemeUncheckedUpdateWithoutGamesInput>
 }
 
+export type ThemeCreateWithoutUsersInput = {
+  name: string
+  imageUrl?: string | null
+  characters?: Prisma.CharacterCreateNestedManyWithoutThemeInput
+  games?: Prisma.GameCreateNestedManyWithoutThemeInput
+}
+
+export type ThemeUncheckedCreateWithoutUsersInput = {
+  id?: number
+  name: string
+  imageUrl?: string | null
+  characters?: Prisma.CharacterUncheckedCreateNestedManyWithoutThemeInput
+  games?: Prisma.GameUncheckedCreateNestedManyWithoutThemeInput
+}
+
+export type ThemeCreateOrConnectWithoutUsersInput = {
+  where: Prisma.ThemeWhereUniqueInput
+  create: Prisma.XOR<Prisma.ThemeCreateWithoutUsersInput, Prisma.ThemeUncheckedCreateWithoutUsersInput>
+}
+
+export type ThemeUpsertWithoutUsersInput = {
+  update: Prisma.XOR<Prisma.ThemeUpdateWithoutUsersInput, Prisma.ThemeUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.ThemeCreateWithoutUsersInput, Prisma.ThemeUncheckedCreateWithoutUsersInput>
+  where?: Prisma.ThemeWhereInput
+}
+
+export type ThemeUpdateToOneWithWhereWithoutUsersInput = {
+  where?: Prisma.ThemeWhereInput
+  data: Prisma.XOR<Prisma.ThemeUpdateWithoutUsersInput, Prisma.ThemeUncheckedUpdateWithoutUsersInput>
+}
+
+export type ThemeUpdateWithoutUsersInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  characters?: Prisma.CharacterUpdateManyWithoutThemeNestedInput
+  games?: Prisma.GameUpdateManyWithoutThemeNestedInput
+}
+
+export type ThemeUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  characters?: Prisma.CharacterUncheckedUpdateManyWithoutThemeNestedInput
+  games?: Prisma.GameUncheckedUpdateManyWithoutThemeNestedInput
+}
+
 export type ThemeCreateWithoutCharactersInput = {
   name: string
   imageUrl?: string | null
   games?: Prisma.GameCreateNestedManyWithoutThemeInput
+  users?: Prisma.UserCreateNestedManyWithoutFavoriteThemeInput
 }
 
 export type ThemeUncheckedCreateWithoutCharactersInput = {
@@ -364,6 +439,7 @@ export type ThemeUncheckedCreateWithoutCharactersInput = {
   name: string
   imageUrl?: string | null
   games?: Prisma.GameUncheckedCreateNestedManyWithoutThemeInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteThemeInput
 }
 
 export type ThemeCreateOrConnectWithoutCharactersInput = {
@@ -386,6 +462,7 @@ export type ThemeUpdateWithoutCharactersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   games?: Prisma.GameUpdateManyWithoutThemeNestedInput
+  users?: Prisma.UserUpdateManyWithoutFavoriteThemeNestedInput
 }
 
 export type ThemeUncheckedUpdateWithoutCharactersInput = {
@@ -393,12 +470,14 @@ export type ThemeUncheckedUpdateWithoutCharactersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   games?: Prisma.GameUncheckedUpdateManyWithoutThemeNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteThemeNestedInput
 }
 
 export type ThemeCreateWithoutGamesInput = {
   name: string
   imageUrl?: string | null
   characters?: Prisma.CharacterCreateNestedManyWithoutThemeInput
+  users?: Prisma.UserCreateNestedManyWithoutFavoriteThemeInput
 }
 
 export type ThemeUncheckedCreateWithoutGamesInput = {
@@ -406,6 +485,7 @@ export type ThemeUncheckedCreateWithoutGamesInput = {
   name: string
   imageUrl?: string | null
   characters?: Prisma.CharacterUncheckedCreateNestedManyWithoutThemeInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutFavoriteThemeInput
 }
 
 export type ThemeCreateOrConnectWithoutGamesInput = {
@@ -428,6 +508,7 @@ export type ThemeUpdateWithoutGamesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUpdateManyWithoutThemeNestedInput
+  users?: Prisma.UserUpdateManyWithoutFavoriteThemeNestedInput
 }
 
 export type ThemeUncheckedUpdateWithoutGamesInput = {
@@ -435,6 +516,7 @@ export type ThemeUncheckedUpdateWithoutGamesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   characters?: Prisma.CharacterUncheckedUpdateManyWithoutThemeNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutFavoriteThemeNestedInput
 }
 
 
@@ -445,11 +527,13 @@ export type ThemeUncheckedUpdateWithoutGamesInput = {
 export type ThemeCountOutputType = {
   characters: number
   games: number
+  users: number
 }
 
 export type ThemeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   characters?: boolean | ThemeCountOutputTypeCountCharactersArgs
   games?: boolean | ThemeCountOutputTypeCountGamesArgs
+  users?: boolean | ThemeCountOutputTypeCountUsersArgs
 }
 
 /**
@@ -476,6 +560,13 @@ export type ThemeCountOutputTypeCountGamesArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.GameWhereInput
 }
 
+/**
+ * ThemeCountOutputType without action
+ */
+export type ThemeCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserWhereInput
+}
+
 
 export type ThemeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -483,6 +574,7 @@ export type ThemeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   imageUrl?: boolean
   characters?: boolean | Prisma.Theme$charactersArgs<ExtArgs>
   games?: boolean | Prisma.Theme$gamesArgs<ExtArgs>
+  users?: boolean | Prisma.Theme$usersArgs<ExtArgs>
   _count?: boolean | Prisma.ThemeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["theme"]>
 
@@ -508,6 +600,7 @@ export type ThemeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 export type ThemeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   characters?: boolean | Prisma.Theme$charactersArgs<ExtArgs>
   games?: boolean | Prisma.Theme$gamesArgs<ExtArgs>
+  users?: boolean | Prisma.Theme$usersArgs<ExtArgs>
   _count?: boolean | Prisma.ThemeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ThemeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -518,6 +611,7 @@ export type $ThemePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   objects: {
     characters: Prisma.$CharacterPayload<ExtArgs>[]
     games: Prisma.$GamePayload<ExtArgs>[]
+    users: Prisma.$UserPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -919,6 +1013,7 @@ export interface Prisma__ThemeClient<T, Null = never, ExtArgs extends runtime.Ty
   readonly [Symbol.toStringTag]: "PrismaPromise"
   characters<T extends Prisma.Theme$charactersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Theme$charactersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CharacterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   games<T extends Prisma.Theme$gamesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Theme$gamesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  users<T extends Prisma.Theme$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Theme$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1384,6 +1479,30 @@ export type Theme$gamesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.GameScalarFieldEnum | Prisma.GameScalarFieldEnum[]
+}
+
+/**
+ * Theme.users
+ */
+export type Theme$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
+  cursor?: Prisma.UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
 /**

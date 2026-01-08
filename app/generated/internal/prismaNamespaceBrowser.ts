@@ -78,7 +78,9 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   username: 'username',
-  score: 'score'
+  score: 'score',
+  winRate: 'winRate',
+  favoriteThemeId: 'favoriteThemeId'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -106,9 +108,9 @@ export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof t
 
 export const GameScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  status: 'status',
   themeId: 'themeId',
-  status: 'status'
+  userId: 'userId'
 } as const
 
 export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]

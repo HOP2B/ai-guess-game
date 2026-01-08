@@ -8,10 +8,13 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  score    Int    @default(0)
-  games    Game[]
+  id              Int    @id @default(autoincrement())
+  username        String @unique
+  score           Int    @default(0)
+  winRate         Float? @default(0)
+  favoriteThemeId Int?
+  favoriteTheme   Theme? @relation(fields: [favoriteThemeId], references: [id])
+  games           Game[]
 }
 
 model Theme {
@@ -20,6 +23,7 @@ model Theme {
   imageUrl   String?
   characters Character[]
   games      Game[]
+  users      User[]
 }
 
 model Character {

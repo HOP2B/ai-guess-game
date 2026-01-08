@@ -7,6 +7,8 @@ interface User {
   id: number;
   username: string;
   score: number;
+  winRate: number;
+  favoriteTheme: string;
 }
 
 export default function Leaderboard() {
@@ -62,15 +64,21 @@ export default function Leaderboard() {
                 <div className="text-gray-400 text-lg text-center animate-fade-in">No players yet</div>
               ) : (
                 users.map((user, index) => (
-                  <div key={user.id} className="flex justify-between text-white text-lg animate-slide-in-left"
+                  <div key={user.id} className="text-white animate-slide-in-left"
                        style={{ animationDelay: `${index * 0.1}s` }}>
-                    <span className="flex items-center">
-                      <span className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
-                        {index + 1}
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="flex items-center">
+                        <span className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
+                          {index + 1}
+                        </span>
+                        {user.username}
                       </span>
-                      {user.username}
-                    </span>
-                    <span className="font-semibold">{user.score} points</span>
+                      <span className="font-semibold">{user.score} points</span>
+                    </div>
+                    <div className="flex justify-between text-sm text-gray-300 ml-11">
+                      <span>Win Rate: {user.winRate}%</span>
+                      <span>Fav Theme: {user.favoriteTheme}</span>
+                    </div>
                   </div>
                 ))
               )}
