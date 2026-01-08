@@ -29,29 +29,39 @@ export type AggregateUser = {
 export type UserAvgAggregateOutputType = {
   id: number | null
   score: number | null
+  winRate: number | null
+  favoriteThemeId: number | null
 }
 
 export type UserSumAggregateOutputType = {
   id: number | null
   score: number | null
+  winRate: number | null
+  favoriteThemeId: number | null
 }
 
 export type UserMinAggregateOutputType = {
   id: number | null
   username: string | null
   score: number | null
+  winRate: number | null
+  favoriteThemeId: number | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: number | null
   username: string | null
   score: number | null
+  winRate: number | null
+  favoriteThemeId: number | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
   username: number
   score: number
+  winRate: number
+  favoriteThemeId: number
   _all: number
 }
 
@@ -59,29 +69,39 @@ export type UserCountAggregateOutputType = {
 export type UserAvgAggregateInputType = {
   id?: true
   score?: true
+  winRate?: true
+  favoriteThemeId?: true
 }
 
 export type UserSumAggregateInputType = {
   id?: true
   score?: true
+  winRate?: true
+  favoriteThemeId?: true
 }
 
 export type UserMinAggregateInputType = {
   id?: true
   username?: true
   score?: true
+  winRate?: true
+  favoriteThemeId?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
   username?: true
   score?: true
+  winRate?: true
+  favoriteThemeId?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
   username?: true
   score?: true
+  winRate?: true
+  favoriteThemeId?: true
   _all?: true
 }
 
@@ -175,6 +195,8 @@ export type UserGroupByOutputType = {
   id: number
   username: string
   score: number
+  winRate: number | null
+  favoriteThemeId: number | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -204,6 +226,9 @@ export type UserWhereInput = {
   id?: Prisma.IntFilter<"User"> | number
   username?: Prisma.StringFilter<"User"> | string
   score?: Prisma.IntFilter<"User"> | number
+  winRate?: Prisma.FloatNullableFilter<"User"> | number | null
+  favoriteThemeId?: Prisma.IntNullableFilter<"User"> | number | null
+  favoriteTheme?: Prisma.XOR<Prisma.ThemeNullableScalarRelationFilter, Prisma.ThemeWhereInput> | null
   games?: Prisma.GameListRelationFilter
 }
 
@@ -211,6 +236,9 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  favoriteTheme?: Prisma.ThemeOrderByWithRelationInput
   games?: Prisma.GameOrderByRelationAggregateInput
 }
 
@@ -221,6 +249,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   score?: Prisma.IntFilter<"User"> | number
+  winRate?: Prisma.FloatNullableFilter<"User"> | number | null
+  favoriteThemeId?: Prisma.IntNullableFilter<"User"> | number | null
+  favoriteTheme?: Prisma.XOR<Prisma.ThemeNullableScalarRelationFilter, Prisma.ThemeWhereInput> | null
   games?: Prisma.GameListRelationFilter
 }, "id" | "username">
 
@@ -228,6 +259,8 @@ export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -242,11 +275,15 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"User"> | number
   username?: Prisma.StringWithAggregatesFilter<"User"> | string
   score?: Prisma.IntWithAggregatesFilter<"User"> | number
+  winRate?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  favoriteThemeId?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
 }
 
 export type UserCreateInput = {
   username: string
   score?: number
+  winRate?: number | null
+  favoriteTheme?: Prisma.ThemeCreateNestedOneWithoutUsersInput
   games?: Prisma.GameCreateNestedManyWithoutUserInput
 }
 
@@ -254,12 +291,16 @@ export type UserUncheckedCreateInput = {
   id?: number
   username: string
   score?: number
+  winRate?: number | null
+  favoriteThemeId?: number | null
   games?: Prisma.GameUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  favoriteTheme?: Prisma.ThemeUpdateOneWithoutUsersNestedInput
   games?: Prisma.GameUpdateManyWithoutUserNestedInput
 }
 
@@ -267,6 +308,8 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  favoriteThemeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   games?: Prisma.GameUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -274,45 +317,70 @@ export type UserCreateManyInput = {
   id?: number
   username: string
   score?: number
+  winRate?: number | null
+  favoriteThemeId?: number | null
 }
 
 export type UserUpdateManyMutationInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  favoriteThemeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   username?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   score?: Prisma.SortOrder
+  winRate?: Prisma.SortOrder
+  favoriteThemeId?: Prisma.SortOrder
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -332,6 +400,64 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type UserCreateNestedManyWithoutFavoriteThemeInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteThemeInput, Prisma.UserUncheckedCreateWithoutFavoriteThemeInput> | Prisma.UserCreateWithoutFavoriteThemeInput[] | Prisma.UserUncheckedCreateWithoutFavoriteThemeInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteThemeInput | Prisma.UserCreateOrConnectWithoutFavoriteThemeInput[]
+  createMany?: Prisma.UserCreateManyFavoriteThemeInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutFavoriteThemeInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteThemeInput, Prisma.UserUncheckedCreateWithoutFavoriteThemeInput> | Prisma.UserCreateWithoutFavoriteThemeInput[] | Prisma.UserUncheckedCreateWithoutFavoriteThemeInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteThemeInput | Prisma.UserCreateOrConnectWithoutFavoriteThemeInput[]
+  createMany?: Prisma.UserCreateManyFavoriteThemeInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutFavoriteThemeNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteThemeInput, Prisma.UserUncheckedCreateWithoutFavoriteThemeInput> | Prisma.UserCreateWithoutFavoriteThemeInput[] | Prisma.UserUncheckedCreateWithoutFavoriteThemeInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteThemeInput | Prisma.UserCreateOrConnectWithoutFavoriteThemeInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutFavoriteThemeInput | Prisma.UserUpsertWithWhereUniqueWithoutFavoriteThemeInput[]
+  createMany?: Prisma.UserCreateManyFavoriteThemeInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutFavoriteThemeInput | Prisma.UserUpdateWithWhereUniqueWithoutFavoriteThemeInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutFavoriteThemeInput | Prisma.UserUpdateManyWithWhereWithoutFavoriteThemeInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutFavoriteThemeNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFavoriteThemeInput, Prisma.UserUncheckedCreateWithoutFavoriteThemeInput> | Prisma.UserCreateWithoutFavoriteThemeInput[] | Prisma.UserUncheckedCreateWithoutFavoriteThemeInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFavoriteThemeInput | Prisma.UserCreateOrConnectWithoutFavoriteThemeInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutFavoriteThemeInput | Prisma.UserUpsertWithWhereUniqueWithoutFavoriteThemeInput[]
+  createMany?: Prisma.UserCreateManyFavoriteThemeInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutFavoriteThemeInput | Prisma.UserUpdateWithWhereUniqueWithoutFavoriteThemeInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutFavoriteThemeInput | Prisma.UserUpdateManyWithWhereWithoutFavoriteThemeInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
 export type UserCreateNestedOneWithoutGamesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutGamesInput, Prisma.UserUncheckedCreateWithoutGamesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutGamesInput
@@ -346,15 +472,71 @@ export type UserUpdateOneRequiredWithoutGamesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGamesInput, Prisma.UserUpdateWithoutGamesInput>, Prisma.UserUncheckedUpdateWithoutGamesInput>
 }
 
+export type UserCreateWithoutFavoriteThemeInput = {
+  username: string
+  score?: number
+  winRate?: number | null
+  games?: Prisma.GameCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFavoriteThemeInput = {
+  id?: number
+  username: string
+  score?: number
+  winRate?: number | null
+  games?: Prisma.GameUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFavoriteThemeInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoriteThemeInput, Prisma.UserUncheckedCreateWithoutFavoriteThemeInput>
+}
+
+export type UserCreateManyFavoriteThemeInputEnvelope = {
+  data: Prisma.UserCreateManyFavoriteThemeInput | Prisma.UserCreateManyFavoriteThemeInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserUpsertWithWhereUniqueWithoutFavoriteThemeInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFavoriteThemeInput, Prisma.UserUncheckedUpdateWithoutFavoriteThemeInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFavoriteThemeInput, Prisma.UserUncheckedCreateWithoutFavoriteThemeInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutFavoriteThemeInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFavoriteThemeInput, Prisma.UserUncheckedUpdateWithoutFavoriteThemeInput>
+}
+
+export type UserUpdateManyWithWhereWithoutFavoriteThemeInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutFavoriteThemeInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.IntFilter<"User"> | number
+  username?: Prisma.StringFilter<"User"> | string
+  score?: Prisma.IntFilter<"User"> | number
+  winRate?: Prisma.FloatNullableFilter<"User"> | number | null
+  favoriteThemeId?: Prisma.IntNullableFilter<"User"> | number | null
+}
+
 export type UserCreateWithoutGamesInput = {
   username: string
   score?: number
+  winRate?: number | null
+  favoriteTheme?: Prisma.ThemeCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutGamesInput = {
   id?: number
   username: string
   score?: number
+  winRate?: number | null
+  favoriteThemeId?: number | null
 }
 
 export type UserCreateOrConnectWithoutGamesInput = {
@@ -376,12 +558,45 @@ export type UserUpdateToOneWithWhereWithoutGamesInput = {
 export type UserUpdateWithoutGamesInput = {
   username?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  favoriteTheme?: Prisma.ThemeUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGamesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   username?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  favoriteThemeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type UserCreateManyFavoriteThemeInput = {
+  id?: number
+  username: string
+  score?: number
+  winRate?: number | null
+}
+
+export type UserUpdateWithoutFavoriteThemeInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  games?: Prisma.GameUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFavoriteThemeInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  games?: Prisma.GameUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutFavoriteThemeInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  score?: Prisma.IntFieldUpdateOperationsInput | number
+  winRate?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 
@@ -419,6 +634,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   username?: boolean
   score?: boolean
+  winRate?: boolean
+  favoriteThemeId?: boolean
+  favoriteTheme?: boolean | Prisma.User$favoriteThemeArgs<ExtArgs>
   games?: boolean | Prisma.User$gamesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -427,37 +645,53 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   username?: boolean
   score?: boolean
+  winRate?: boolean
+  favoriteThemeId?: boolean
+  favoriteTheme?: boolean | Prisma.User$favoriteThemeArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   username?: boolean
   score?: boolean
+  winRate?: boolean
+  favoriteThemeId?: boolean
+  favoriteTheme?: boolean | Prisma.User$favoriteThemeArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
   username?: boolean
   score?: boolean
+  winRate?: boolean
+  favoriteThemeId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "score", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "score" | "winRate" | "favoriteThemeId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  favoriteTheme?: boolean | Prisma.User$favoriteThemeArgs<ExtArgs>
   games?: boolean | Prisma.User$gamesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  favoriteTheme?: boolean | Prisma.User$favoriteThemeArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  favoriteTheme?: boolean | Prisma.User$favoriteThemeArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    favoriteTheme: Prisma.$ThemePayload<ExtArgs> | null
     games: Prisma.$GamePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     username: string
     score: number
+    winRate: number | null
+    favoriteThemeId: number | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -852,6 +1086,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  favoriteTheme<T extends Prisma.User$favoriteThemeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoriteThemeArgs<ExtArgs>>): Prisma.Prisma__ThemeClient<runtime.Types.Result.GetResult<Prisma.$ThemePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   games<T extends Prisma.User$gamesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$gamesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -885,6 +1120,8 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'Int'>
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly score: Prisma.FieldRef<"User", 'Int'>
+  readonly winRate: Prisma.FieldRef<"User", 'Float'>
+  readonly favoriteThemeId: Prisma.FieldRef<"User", 'Int'>
 }
     
 
@@ -1134,6 +1371,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1204,6 +1445,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1270,6 +1515,25 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.favoriteTheme
+ */
+export type User$favoriteThemeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Theme
+   */
+  select?: Prisma.ThemeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Theme
+   */
+  omit?: Prisma.ThemeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ThemeInclude<ExtArgs> | null
+  where?: Prisma.ThemeWhereInput
 }
 
 /**
